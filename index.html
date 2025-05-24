@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Brendan Teo</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        typing: {
+                            "0%": {
+                                width: "0%",
+                                visibility: "hidden"
+                            },
+                            "20%": {
+                                width: "100%"
+                            },
+                            "80%": {
+                                width: "100%"
+                            },
+                            "100%": {
+                                width: "0%"
+                            }
+                        },
+                        blink: {
+                            "50%": {
+                                borderColor: "transparent"
+                            },
+                            "100%": {
+                                borderColor: "white"
+                            }
+                        },
+                        bounce: {
+                            "0%, 100%": {
+                                transform: "translateY(0)"
+                            },
+                            "50%": {
+                                transform: "translateY(-5px)"
+                            }
+                        }
+                    },
+                    animation: {
+                        typing: "typing 8s steps(20) infinite, blink .7s infinite",
+                        bounce: "bounce 2s ease-in-out infinite"
+                    }
+                },
+            },
+            plugins: [],
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Responsive navbar-->
+    <nav class="fixed top-0 left-0 right-0 bg-green-950/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#!"
+                            class="px-3 py-2 rounded-md text-sm font-medium bg-green-800/50 text-white">Home</a>
+                        <a href="projects.html"
+                            class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-green-800/50">Projects</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button type="button"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-green-800/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Add padding to the top of the main content to account for fixed navbar -->
+    <div class="pt-16">
+        <div class="flex flex-col md:flex-row items-center justify-center min-h-[60vh] bg-white p-4 md:p-8 font-sans">
+            <div
+                class="relative md:w-auto flex items-center justify-center p-6 md:p-12 mt-8 md:mt-0 order-2 md:order-1">
+                <div class="relative w-[600px] h-[600px] overflow-hidden rounded-3xl">
+                    <img src="assets/portfolio_pic.jpeg" alt="Profile picture" class="absolute top-0 left-0 rounded-5xl"
+                        style="width: 600px; height: 600px; object-fit: cover;">
+                </div>
+            </div>
+
+
+            <div class="md:w-1/2 text-center md:text-left p-6 md:p-12 relative z-10 order-1 md:order-2">
+                <div class="w-max">
+                    <h1
+                        class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-black pr-5 text-4xl md:text-6xl font-extrabold text-black leading-tight mb-4 md:mb-6">
+                        Brendan Teo
+                    </h1>
+                </div>
+                <p class="text-black text-base md:text-lg mb-4 md:mb-6 max-w-md mx-auto md:mx-0">
+                    Data Automation Intern || Information Systems Undergraduate
+                </p>
+                <div class="flex space-x-6 mb-8 md:mb-10">
+                    <a href="https://www.linkedin.com/in/brendanteohaoyi/" target="_blank"
+                        class="text-black hover:text-gray-600 transition-colors duration-300">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="https://github.com/brendanteo269" target="_blank"
+                        class="text-black hover:text-gray-600 transition-colors duration-300">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/b.rendanteo/" target="_blank"
+                        class="text-black hover:text-gray-600 transition-colors duration-300">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="mailto:brendanteo269@gmail.com"
+                        class="text-black hover:text-gray-600 transition-colors duration-300">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="bg-green-50 min-h-screen p-8">
+        <div class="max-w-7xl mx-auto">
+            <main class="font-jost hyphens-manual">
+                <!-- Page -->
+                <section
+                    class="p-3 my-auto mx-auto max-w-3xl bg-white rounded-2xl border-2 border-gray-700 sm:p-9 md:p-16 lg:mt-6 print:border-0 page print:max-w-letter print:max-h-letter print:mx-0 print:my-o xsm:p-8 print:bg-white md:max-w-letter md:h-letter lg:h-letter">
+                    <!-- Name -->
+                    <header
+                        class="inline-flex justify-between items-baseline mb-2 w-full align-top border-b-2 border-gray-300">
+                        <section class="block">
+                            <h1 class="mb-0 text-5xl font-bold text-gray-700">
+                                Teo Hao Yi Brendan
+                            </h1>
+                            <!--Job Title-->
+                            <h2 class="m-0 ml-2 text-2xl font-semibold text-gray-700 leading-snugish">
+                                National University of Singapore
+                            </h2>
+                            <!--Location -->
+                            <h3 class="m-0 mt-2 ml-2 text-xl font-semibold text-gray-500 leading-snugish">
+                                Singapore, Singapore
+                            </h3>
+                            <br>
+                        </section>
+                        <!--   Initials Block         -->
+                    </header>
+
+                    <!-- Column -->
+                    <section
+                        class="col-gap-8 print:col-count-2 print:h-letter-col-full col-fill-balance md:col-count-2 md:h-letter-col-full">
+                        <section class="flex-col">
+
+                            <!--Summary -->
+                            <section class="py-6 mt-0 border-b-2 border-gray-300 first:mt-0">
+                                <!-- To keep in the same column -->
+                                <section class="break-inside-avoid">
+                                    <h2 class="mb-4 text-xl font-bold tracking-widest text-gray-700 print:font-normal">
+                                        SUMMARY
+                                    </h2>
+                                    <section class="mb-2 break-inside-avoid">
+                                        <p class="mt-2 leading-normal text-gray-700 text-md">
+                                            All-rounded undergraduate student with a passion for Product Management and
+                                            SDLC. Strong proven track record of
+                                            innovating simple yet powerful and useful products/processes to improve user
+                                            experience and workflow.
+                                        </p>
+                                    </section>
+                                </section>
+                            </section>
+
+                            <!--Education -->
+                            <section class="py-6 mt-0 border-b-2 border-gray-300 first:mt-0 break-inside-avoid">
+                                <!-- To keep in the same column -->
+                                <section class="break-inside-avoid">
+                                    <h2 class="mb-4 text-lg font-bold tracking-widest text-gray-700 print:font-normal">
+                                        EDUCATION
+                                    </h2>
+                                    <!-- school -->
+                                    <section class="mt-2 border-b-2 break-inside-avoid">
+                                        <header>
+                                            <h3 class="text-lg font-semibold text-gray-700 leading-snugish">
+                                                National University of Singapore
+                                            </h3>
+                                            <p class="leading-normal text-gray-500 text-md">
+                                                2023 &ndash; 2027 | Bachelor of Computing in Information Systems
+                                            </p>
+                                        </header>
+                                        <ul class="mt-2 list-disc list-inside text-gray-800 text-md">
+                                            <li>
+                                                <span class="font-semibold text-md">
+                                                    Major:
+                                                </span>
+                                                Information Systems
+                                            </li>
+                                            <li>
+                                                <span class="font-semibold text-md">
+                                                    Minor:
+                                                </span>
+                                                Psychology
+                                            </li>
+                                            <li>
+                                                <span class="font-semibold text-md">
+                                                    Skills:
+                                                </span>
+                                                Web Development, Data Engineering, Software Engineering
+                                            </li>
+                                        </ul>
+                                    </section>
+
+                                    <!--school 2-->
+                                    <section class="pb-4 mt-4 mb-4 break-inside-avoid">
+                                        <header>
+                                            <h3 class="flex-grow text-lg font-semibold text-gray-700 leading-snugish">
+                                                Victoria Junior College
+                                            </h3>
+                                            <p class="leading-normal text-gray-500 text-md">
+                                                2018 &ndash; 2019
+                                            </p>
+                                        </header>
+                                        <ul class="mt-2 list-disc list-inside text-gray-800 text-md">
+                                            <li>
+                                                <span class="font-semibold text-md">
+                                                    Subject Combination:
+                                                </span>
+                                                PCME 4H2
+                                            </li>
+                                            <li>
+                                                <span class="font-semibold text-md">
+                                                    Grade
+                                                </span>
+                                                AAAA/AA
+                                            </li>
+                                            <li>
+                                                <span class="font-semibold text-md">
+                                                    Projects and Extracurriculars
+                                                </span>
+                                                Project Mushroom, OVIA'19, Tennis, Taekwondo
+                                            </li>
+                                        </ul>
+                                    </section>
+                                </section>
+                            </section>
+
+                            <!--Begin Skills -->
+                            <section class="py-6 mt-0 border-b-2 border-gray-300 first:mt-0 break-inside-avoid">
+                                <!-- To keep in the same column -->
+                                <section class="break-inside-avoid">
+                                    <h2 class="mb-6 text-lg font-bold tracking-widest text-gray-700 print:font-normal">
+                                        SKILLS
+                                    </h2>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <!-- HTML -->
+                                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank"
+                                            class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-html5 text-2xl text-orange-500 mr-3"></i>
+                                                <span class="font-medium text-gray-700">HTML</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- CSS -->
+                                        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank"
+                                            class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-css3-alt text-2xl text-blue-500 mr-3"></i>
+                                                <span class="font-medium text-gray-700">CSS</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- Tailwind -->
+                                        <a href="https://tailwindcss.com/" target="_blank" class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-css3 text-2xl text-cyan-500 mr-3"></i>
+                                                <span class="font-medium text-gray-700">Tailwind</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- JavaScript -->
+                                        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+                                            target="_blank" class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-js text-2xl text-yellow-500 mr-3"></i>
+                                                <span class="font-medium text-gray-700">JavaScript</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- Python -->
+                                        <a href="https://www.python.org/" target="_blank" class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-python text-2xl text-blue-600 mr-3"></i>
+                                                <span class="font-medium text-gray-700">Python</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- React -->
+                                        <a href="https://reactjs.org/" target="_blank" class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-react text-2xl text-blue-400 mr-3"></i>
+                                                <span class="font-medium text-gray-700">React</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- Data Analysis -->
+                                        <a href="https://www.python.org/doc/essays/blurb/" target="_blank"
+                                            class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fas fa-chart-line text-2xl text-green-500 mr-3"></i>
+                                                <span class="font-medium text-gray-700">Data Analysis</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- SQL -->
+                                        <a href="https://www.w3schools.com/sql/" target="_blank" class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fas fa-database text-2xl text-purple-500 mr-3"></i>
+                                                <span class="font-medium text-gray-700">SQL</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- Airflow -->
+                                        <a href="https://airflow.apache.org/" target="_blank" class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <img src="assets/airflow_logo.png" alt="Apache Airflow"
+                                                    class="w-8 h-8 mr-3">
+                                                <span class="font-medium text-gray-700">Apache Airflow</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                        <!-- MS Suite -->
+                                        <a href="https://www.microsoft.com/en-us/microsoft-365" target="_blank"
+                                            class="group">
+                                            <div
+                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                <i class="fab fa-microsoft text-2xl text-blue-600 mr-3"></i>
+                                                <span class="font-medium text-gray-700">MS Suite</span>
+                                                <i
+                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </section>
+                            </section>
+
+                            <!--Experience -->
+                            <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0">
+                                <!-- To keep in the same column -->
+                                <section class="break-inside-avoid">
+                                    <h2 class="mb-4 text-xl font-black tracking-widest text-gray-800 print:font-normal">
+                                        EXPERIENCE
+                                    </h2>
+                                    <!--Job 1-->
+                                    <section class="mb-2 border-b-2 border-gray-300 break-inside-avoid">
+                                        <header>
+                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                Data Automation and Dashboard Intern
+                                                <span
+                                                    class="inline-block animate-bounce bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold ml-2">In
+                                                    Progress!</span>
+                                            </h3>
+                                            <p class="text-sm leading-normal text-gray-500">
+                                                May 2025 &ndash; Aug 2025 | Workforce Singapore
+                                            </p>
+                                        </header>
+                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Attached to the Business and Service Excellence team to carry out data
+                                                automation
+                                                of different pipelines using Open Government Products such as Plumber.
+                                            </li>
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Leveraged data visualisation software such as Tableau for exploratory
+                                                data analysis
+                                                to improve internal KPIs and client satisfaction.
+                                            </li>
+                                        </ul>
+                                    </section>
+
+                                    <!-- job 2  -->
+                                    <section class="mb-2 border-b-2 border-gray-300 break-inside-avoid">
+                                        <header>
+                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                Systems and Process Intern
+                                            </h3>
+                                            <p class="text-sm text-gray-500 leading-snugish">
+                                                Jan 2025 &ndash; Apr 2025 | National Youth Council
+                                            </p>
+                                        </header>
+                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Optimised and improved existing workflows to streamline data collection
+                                                and updating within cross-platform systems.
+                                                Managed weekly database updating and cleaning.
+                                            </li>
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Embarked on various projects to create data visualisations to tie data
+                                                sources together for easier reference and report
+                                                creation on PowerBI and Excel.
+                                            </li>
+                                        </ul>
+                                    </section>
+
+                                    <!-- job 3 -->
+                                    <section class="mb-2 border-b-2 border-gray-300 break-inside-avoid">
+                                        <header>
+                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                Product Management Intern
+                                            </h3>
+                                            <p class="text-sm text-gray-500 leading-snugish">
+                                                Sept 2024 &ndash; Oct 2024 | Fraxtor Singapore
+                                            </p>
+                                        </header>
+                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Collaborated with Product Managers to facilitate User Acceptance Testing
+                                                (UAT), proactively addressing and resolving
+                                                backend and frontend issues in a timely manner.
+                                            </li>
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Contributed to the instruction of the new platform to sister companies,
+                                                supporting informed product management
+                                                decisions.
+                                            </li>
+                                        </ul>
+                                    </section>
+
+                                    <!-- job 4 -->
+                                    <section class="mb-2 border-b-0 border-gray-300 break-inside-avoid">
+                                        <header>
+                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                Junior Account Manager & Data Coordinator
+                                            </h3>
+                                            <p class="text-sm text-gray-500 leading-snugish">
+                                                Feb 2023 &ndash; July 2023 | Grab
+                                            </p>
+                                        </header>
+                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Manage smaller-sized accounts that have onboarded with Grab. Provide
+                                                timely business reviews as and when required, while also processing
+                                                pulled data and analysing data sets to provide relevant and tailored
+                                                solutions.
+                                            </li>
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Assisted with early-stage adoption of Dine-in Deals.
+                                            </li>
+                                            <li>
+                                                <span class="text-gray-500 transform -translate-y-px select-none">
+                                                    &rsaquo;
+                                                </span>
+                                                Assisted account managers in Grab, through pulling data and providing
+                                                auxiliary information when requested
+                                            </li>
+                                        </ul>
+                                    </section>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer-->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center">Copyright &copy; Brendan</p>
+        </div>
+    </footer>
+</body>
+
+</html>
