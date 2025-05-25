@@ -7,7 +7,23 @@
     <title>Projects</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="tailwind.config.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        slideLeft: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-10px)' }
+                        }
+                    },
+                    animation: {
+                        slideLeft: 'slideLeft 0.3s ease-in-out forwards'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
 <body class="bg-gray-100">

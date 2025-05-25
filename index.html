@@ -11,7 +11,47 @@
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="tailwind.config.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        typing: {
+                            "0%": {
+                                width: "0%"
+                            },
+                            "20%": {
+                                width: "100%"
+                            },
+                            "100%": {
+                                width: "100%"
+                            }
+                        },
+                        blink: {
+                            "50%": {
+                                borderColor: "transparent"
+                            },
+                            "100%": {
+                                borderColor: "black"
+                            }
+                        },
+                        bounce: {
+                            "0%, 100%": {
+                                transform: "translateY(0)"
+                            },
+                            "50%": {
+                                transform: "translateY(-5px)"
+                            }
+                        }
+                    },
+                    animation: {
+                        typing: "typing 8s steps(20) infinite, blink .7s infinite",
+                        bounce: "bounce 2s ease-in-out infinite"
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
