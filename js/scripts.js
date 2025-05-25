@@ -32,7 +32,10 @@ slider.addEventListener("input", (e) => {
   song.volume = Number(e.target.value);
 });
 
+// ... existing code ...
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Record player code
     const toggleButton = document.getElementById('togglePlayer');
     const playerContent = document.getElementById('playerContent');
     const container = document.querySelector('.record-player-container');
@@ -54,6 +57,32 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.remove('fa-chevron-left');
             icon.classList.add('fa-chevron-right');
             container.style.transform = 'translate(-100%, -50%) rotate(-90deg)';
+        }
+    });
+});
+
+// Arrow toggling functionality - moved outside the record player code
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleArrow = document.getElementById('toggleArrow');
+    const musicIcon = toggleArrow.querySelector('i');
+    const recordPlayer = document.querySelector('.record-player-container');
+    let isPlayerVisible = false;
+
+    // Set initial position (off-screen)
+    recordPlayer.style.transform = 'translateX(-200%) translateY(-50%) scale(0.4)';
+
+    toggleArrow.addEventListener('click', function() {
+        isPlayerVisible = !isPlayerVisible;
+        
+        // Toggle music note rotation
+        if (!isPlayerVisible) {
+            musicIcon.style.transform = 'rotate(0deg)';
+            // Slide the player in
+            recordPlayer.style.transform = 'translateX(0) translateY(-50%) scale(0.4)';
+        } else {
+            musicIcon.style.transform = 'rotate(180deg)';
+            // Slide the player out
+            recordPlayer.style.transform = 'translateX(-200%) translateY(-50%) scale(0.4)';
         }
     });
 });
