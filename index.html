@@ -9,6 +9,7 @@
     <title>Brendan Teo</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -56,7 +57,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#d7f5f4]">
     <!-- Responsive navbar-->
     <nav class="fixed top-0 left-0 right-0 bg-green-950/90 backdrop-blur-sm z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,6 +124,24 @@
                                 <i class="fas fa-envelope text-2xl"></i>
                             </a>
                         </div>
+                        <div
+                            class="record-player-container relative w-full max-w-[132px] mx-auto mt-[100px] scale-[0.4]">
+                            <link rel="stylesheet" href="css/record-player.css" />
+                            <div class="player">
+                                <div class="record">
+                                    <div class="label"></div>
+                                </div>
+                                <div class="tone-arm">
+                                    <div class="control"></div>
+                                </div>
+                                <button class="btn"></button>
+                                <div class="slider-container">
+                                    <input type="range" class="slider" min="0" max="1" step="0.1" value="0.7" />
+                                </div>
+                            </div>
+                            <audio loop class="my-song" src="audio/back_pocket.mp3" preload="auto"></audio>
+                            <script src="js/scripts.js"></script>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,7 +149,7 @@
     </div>
 
     <!-- Main Content Section -->
-    <div class="bg-gray-100 min-h-screen pt-4 p-8">
+    <div class="min-h-screen pt-4 p-8">
         <div class="max-w-7xl mx-auto">
             <!-- Download Button -->
             <div class="flex justify-center mb-6">
@@ -525,6 +544,7 @@
             <p class="text-center">Copyright &copy; Brendan</p>
         </div>
     </footer>
+    <script></script>
 </body>
 
 </html>
