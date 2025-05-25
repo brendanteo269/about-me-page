@@ -65,13 +65,131 @@
 
     <!-- Add padding to the top of the main content to account for fixed navbar -->
     <div class="pt-16">
-        <!-- Container positioned at top-left -->
+        <!-- Vinyl record container -->
+        <div class="absolute top-0 left-0">
+            <img src="assets/transparent vinyl 1.png" alt="Vinyl Record Background"
+                class="w-[30vw] h-[30vw] object-cover rounded-lg animate-fadeIn transition-transform duration-1000"
+                style="transform: translate(2.5vw, calc(50vh - 22.5vw)); z-index: 1;" id="vinylRecord">
+        </div>
+
+        <!-- Projects image container -->
         <div class="absolute top-0 left-0">
             <img src="assets/Projects.png" alt="Projects"
-                class="w-[45vw] h-[45vw] object-cover rounded-lg shadow-lg animate-fadeIn"
-                style="transform: translate(2.5vw, calc(50vh - 22.5vw));">
+                class="w-[35vw] h-[35vw] object-cover rounded-lg shadow-lg animate-fadeIn"
+                style="transform: translate(2.5vw, calc(50vh - 22.5vw)); z-index: 2;">
         </div>
     </div>
+
+    <!-- Custom Album Cover -->
+    <div class="absolute top-0 left-0" style="transform: translate(calc(2.5vw + 20px), calc(50vh + 20vw - 100px));">
+        <div class="w-[400px] aspect-square rounded-lg overflow-hidden">
+            <div class="w-full h-full">
+                <div class="text-black p-8 text-left">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-center">Tracklist</h2>
+                        <button onclick="returnVinyl()" id="keepButton"
+                            class="hidden bg-black hover:bg-gray-800 text-white text-sm px-3 py-1 rounded transition-colors">
+                            Keep
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <button onclick="moveVinyl('two-fish')"
+                            class="w-full text-left hover:opacity-70 transition-opacity">
+                            <div class="flex items-center gap-4">
+                                <span class="font-medium italic">1. Two Fish Project</span>
+                                <span class="text-black/80">3:45</span>
+                            </div>
+                        </button>
+                        <button onclick="moveVinyl('toolbox')"
+                            class="w-full text-left hover:opacity-70 transition-opacity">
+                            <div class="flex items-center gap-4">
+                                <span class="font-medium italic">2. Toolbox+</span>
+                                <span class="text-black/80">4:12</span>
+                            </div>
+                        </button>
+                        <button onclick="moveVinyl('healthiciency')"
+                            class="w-full text-left hover:opacity-70 transition-opacity">
+                            <div class="flex items-center gap-4">
+                                <span class="font-medium italic">3. Healthiciency</span>
+                                <span class="text-black/80">3:58</span>
+                            </div>
+                        </button>
+                        <button onclick="moveVinyl('abpc')"
+                            class="w-full text-left hover:opacity-70 transition-opacity">
+                            <div class="flex items-center gap-4">
+                                <span class="font-medium italic">4. ABPC</span>
+                                <span class="text-black/80">4:30</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isAnimating = false;
+
+        function moveVinyl(project) {
+            if (isAnimating) return; // Prevent multiple animations at once
+            isAnimating = true;
+
+            const vinyl = document.getElementById('vinylRecord');
+            const keepButton = document.getElementById('keepButton');
+
+            // First, move current vinyl back
+            vinyl.style.transform = 'translate(2.5vw, calc(50vh - 22.5vw))';
+
+            // Wait for the return animation to complete before showing new vinyl
+            setTimeout(() => {
+                // Change vinyl image based on project
+                switch (project) {
+                    case 'two-fish':
+                        vinyl.src = 'assets/transparent vinyl 1.png';
+                        break;
+                    case 'toolbox':
+                        vinyl.src = 'assets/transparent vinyl 2.png';
+                        break;
+                    case 'healthiciency':
+                        vinyl.src = 'assets/transparent vinyl 3.png';
+                        break;
+                    case 'abpc':
+                        vinyl.src = 'assets/transparent vinyl 4.png';
+                        break;
+                }
+
+                // Move to final position
+                vinyl.style.transform = 'translate(250px, calc(50vh - 20vw))';
+
+                // Show keep button
+                keepButton.classList.remove('hidden');
+
+                // Reset animation flag after transition completes
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 1000); // Match this with the transition duration
+            }, 1000); // Match this with the transition duration
+        }
+
+        function returnVinyl() {
+            if (isAnimating) return; // Prevent animation while another is in progress
+            isAnimating = true;
+
+            const vinyl = document.getElementById('vinylRecord');
+            const keepButton = document.getElementById('keepButton');
+
+            // Move vinyl back behind projects image
+            vinyl.style.transform = 'translate(2.5vw, calc(50vh - 22.5vw))';
+
+            // Hide keep button
+            keepButton.classList.add('hidden');
+
+            // Reset animation flag after transition completes
+            setTimeout(() => {
+                isAnimating = false;
+            }, 1000); // Match this with the transition duration
+        }
+    </script>
 </body>
 
 </html>
