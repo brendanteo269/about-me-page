@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 95 Start Bar & Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS for the classic Windows 95 3D effect */
+        .win95-border-raised {
+            border-top: 2px solid #FFFFFF;
+            /* Highlight top */
+            border-left: 2px solid #FFFFFF;
+            /* Highlight left */
+            border-right: 2px solid #808080;
+            /* Shadow right */
+            border-bottom: 2px solid #808080;
+            /* Shadow bottom */
+            box-shadow: 2px 2px 0 #000000;
+            /* Outer black shadow for depth */
+        }
+
+        .win95-border-pressed {
+            border-top: 2px solid #808080;
+            /* Shadow top */
+            border-left: 2px solid #808080;
+            /* Shadow left */
+            border-right: 2px solid #FFFFFF;
+            /* Highlight right */
+            border-bottom: 2px solid #FFFFFF;
+            /* Highlight bottom */
+            box-shadow: none;
+            /* Remove outer shadow when pressed */
+        }
+
+        /* Styles for the Start Button's "open" state (when menu is visible) */
+        #startButton.is-open {
+            background-color: #B0B0B0;
+            /* Slightly darker gray */
+            border-top: 2px solid #808080;
+            /* Reverse borders */
+            border-left: 2px solid #808080;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            padding-top: 6px;
+            /* Shift content down */
+            padding-bottom: 2px;
+            /* Shift content down */
+            padding-left: 14px;
+            /* Shift content right */
+            padding-right: 10px;
+            /* Shift content right */
+            box-shadow: none;
+        }
+
+        /* Styles for menu items when their sub-menu is open or they are hovered */
+        .menu-item.is-submenu-open,
+        .menu-item:hover:not(.no-hover-effect) {
+            background-color: #000080;
+            /* Dark blue background */
+            color: #FFFFFF;
+            /* White text */
+        }
+
+        /* Ensure the body takes full viewport height for centering content */
+        body {
+            min-height: 100vh;
+            font-family: 'MS Sans Serif', 'Arial', sans-serif;
+            /* Changed font to MS Sans Serif with fallbacks */
+            background-color: #008080;
+            /* Windows 95 desktop background color */
+        }
+
+        /* Base font size for menu items to match Win95 aesthetic */
+        .menu-item {
+            font-size: 15px;
+            /* Typical Windows 95 menu item font size */
+            line-height: 1.2;
+            /* Adjust line height for spacing */
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 1rem;
+            /* Equivalent to px-4 */
+            padding-right: 1rem;
+            /* Equivalent to px-4 */
+        }
+
+        /* Specific styling for the vertical Windows95 text */
+        .windows95-text {
+            position: absolute;
+            /* Ensure absolute positioning relative to its parent */
+            top: 50%;
+            /* Center vertically */
+            left: 50%;
+            /* Center horizontally */
+            transform: translate(-50%, -50%) rotate(-90deg);
+            /* Center and rotate */
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+        }
+    </style>
+</head>
+
+<body class="flex flex-col justify-end items-left relative">
+    <div class="flex-grow w-full"></div>
+
+    <div id="startMenu"
+        class="hidden fixed bottom-[48px] left-0 w-56 bg-gray-300 win95-border-raised z-40 py-1 rounded-sm relative">
+        <div
+            class="absolute top-0 bottom-0 left-0 w-10 bg-gray-400 border-r-2 border-gray-500 flex items-center justify-center overflow-hidden">
+            <span class="text-black text-sm font-bold windows95-text">Windows95</span>
+        </div>
+        <ul class="ml-10">
+            <li id="programsMenuItem" class="flex items-center gap-2 text-black cursor-pointer relative menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M2 4a2 2 0 012-2h4.586a1 1 0 01.707.293l3.414 3.414a1 1 0 00.293.707V16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm11.707 5.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Programs
+            </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V7.414L12.586 4H6z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Documents
+            </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 00-2.286.947c-.07.443-.386.56-.872.56-.807 0-1.267-.687-1.267-1.687s.46-1.687 1.267-1.687c.486 0 .802.117.872.56a1.532 1.532 0 002.286.947c.38-1.56 2.6-1.56 2.98 0a1.532 1.532 0 002.286-.947c.07-.443.386-.56.872-.56.807 0 1.267.687 1.267 1.687s-.46 1.687-1.267 1.687c-.486 0-.802-.117-.872-.56a1.532 1.532 0 00-2.286-.947zM10 13a1 1 0 100-2 1 1 0 000 2zm-1 2a1 1 0 100-2 1 1 0 000 2zm2 0a1 1 0 100-2 1 1 0 000 2zm-1 2a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Settings
+            </li>
+        </ul>
+
+        <div id="programsSubMenu"
+            class="hidden absolute top-0 left-full ml-1 w-56 bg-gray-300 win95-border-raised z-40 py-1 rounded-sm">
+        </div>
+    </div>
+
+    <div
+        class="fixed bottom-0 left-0 right-0 w-full h-12 bg-gray-300 flex items-center px-2 border-t-2 border-gray-500 z-50">
+
+        <button id="startButton"
+            class="start-button flex items-center gap-2 px-4 py-1 font-bold text-black cursor-pointer rounded-sm
+                       bg-gray-300 win95-border-raised
+                       active:bg-gray-400 active:win95-border-pressed active:pt-[6px] active:pb-[2px] active:pl-[14px] active:pr-[10px]">
+            <img src="assets/win95.png" alt="Windows 95 Logo" class="w-5 h-5 object-contain"
+                onerror="this.onerror=null;this.src='https://placehold.co/20x20/000080/FFFFFF?text=WIN';">
+            Start
+        </button>
+
+        <div class="flex-grow h-full flex items-center px-2">
+            <div class="w-full h-1 bg-gray-400 border-t border-gray-500 border-b border-white"></div>
+        </div>
+
+        <div
+            class="flex items-center h-full px-2 bg-gray-300 border-t-2 border-gray-500 border-l-2 border-white border-r-2 border-gray-500 border-b-2 border-gray-500 rounded-sm">
+            <div class="win95-border-pressed bg-gray-300 px-2 py-1 text-black text-sm font-semibold rounded-sm">
+                <span id="currentTime"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get references to elements
+        const startButton = document.getElementById('startButton');
+        const startMenu = document.getElementById('startMenu');
+        const programsMenuItem = document.getElementById('programsMenuItem');
+        const programsSubMenu = document.getElementById('programsSubMenu');
+
+        // Function to update the clock
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // The hour '0' should be '12'
+            const minutesPadded = minutes < 10 ? '0' + minutes : minutes;
+
+            document.getElementById('currentTime').textContent = `${hours}:${minutesPadded} ${ampm}`;
+        }
+
+        // Toggle Start Menu visibility
+        function toggleStartMenu() {
+            startMenu.classList.toggle('hidden');
+            startButton.classList.toggle('is-open'); // Apply/remove pressed state
+
+            if (startMenu.classList.contains('hidden')) { // If menu is closing
+                programsSubMenu.classList.add('hidden'); // Hide sub-menu
+                programsMenuItem.classList.remove('is-submenu-open'); // Remove highlight
+            }
+        }
+
+        // Event listener for the Start Button
+        startButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent document click from immediately closing menu
+            toggleStartMenu();
+        });
+
+        // Show Programs Sub-Menu on hover
+        programsMenuItem.addEventListener('mouseenter', function () {
+            programsSubMenu.classList.remove('hidden');
+            programsMenuItem.classList.add('is-submenu-open'); // Add highlight
+        });
+
+        // Hide Programs Sub-Menu when mouse leaves programsMenuItem or programsSubMenu
+        programsMenuItem.addEventListener('mouseleave', function (event) {
+            // If the mouse leaves programsMenuItem and is not entering programsSubMenu
+            if (!programsSubMenu.contains(event.relatedTarget)) {
+                programsSubMenu.classList.add('hidden');
+                programsMenuItem.classList.remove('is-submenu-open'); // Remove highlight
+            }
+        });
+
+        programsSubMenu.addEventListener('mouseleave', function (event) {
+            // If the mouse leaves programsSubMenu and is not entering programsMenuItem
+            if (!programsMenuItem.contains(event.relatedTarget)) {
+                programsSubMenu.classList.add('hidden');
+                programsMenuItem.classList.remove('is-submenu-open'); // Remove highlight
+            }
+        });
+
+
+        // Close Start Menu if clicked outside
+        document.addEventListener('click', function (event) {
+            // If the click is not on the start button, not inside the start menu, and not inside the programs sub-menu
+            if (!startButton.contains(event.target) && !startMenu.contains(event.target) && !programsSubMenu.contains(event.target)) {
+                if (!startMenu.classList.contains('hidden')) {
+                    startMenu.classList.add('hidden');
+                    startButton.classList.remove('is-open');
+                    programsSubMenu.classList.add('hidden'); // Also hide sub-menu
+                    programsMenuItem.classList.remove('is-submenu-open'); // Also remove highlight
+                }
+            }
+        });
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to display the time immediately
+        updateClock();
+    </script>
+</body>
+
+</html>

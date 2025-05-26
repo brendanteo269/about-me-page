@@ -1,0 +1,70 @@
+body {
+    font-family: 'Arial', sans-serif;
+    /* A font similar to what Win95 used */
+    background-color: #008080;
+    /* Windows 95 desktop background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    border: 10px solid red !important;
+    /* Test style */
+}
+
+.start-button {
+    background-color: #C0C0C0;
+    /* Standard Windows 95 gray */
+    border-top: 2px solid #FFFFFF;
+    /* Highlight top */
+    border-left: 2px solid #FFFFFF;
+    /* Highlight left */
+    border-right: 2px solid #808080;
+    /* Shadow right */
+    border-bottom: 2px solid #808080;
+    /* Shadow bottom */
+    padding: 4px 10px 4px 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    /* Space between logo and text */
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    /* Black text */
+    text-transform: capitalize;
+    /* "Start" with initial cap */
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #000000;
+    /* Outer black shadow for depth */
+}
+
+/* Simulate the "pressed" state */
+.start-button:active {
+    background-color: #B0B0B0;
+    /* Slightly darker gray when pressed */
+    border-top: 2px solid #808080;
+    /* Reverse highlights/shadows */
+    border-left: 2px solid #808080;
+    border-right: 2px solid #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+    padding: 6px 8px 2px 8px;
+    /* Shift content down-right */
+    box-shadow: none;
+    /* Remove outer shadow when pressed */
+}
+
+.logo {
+    width: 20px;
+    /* Adjust size of the "logo" */
+    height: 20px;
+    background-color: #000080;
+    /* Dark blue, similar to the Windows logo */
+    border-top: 1px solid #0000FF;
+    /* Lighter blue highlight */
+    border-left: 1px solid #0000FF;
+    border-right: 1px solid #000040;
+    /* Darker blue shadow */
+    border-bottom: 1px solid #000040;
+    /* For a more accurate logo, you'd use an SVG or background-image */
+}
