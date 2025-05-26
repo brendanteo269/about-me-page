@@ -891,8 +891,9 @@
             </div>
             <div class="flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center mb-2"> <span class="block text-lg font-bold">Teo Hao Yi Brendan</span>
-                        <img src="assets/smiley.png" alt="Smiley Face" class="w-5 h-5 ml-2">
+                    <div class="flex items-center mb-2"> <span id="myNameText" class="block text-lg font-bold">Teo Hao
+                            Yi Brendan</span>
+                        <img id="smileyImage" src="assets/smiley.png" alt="Smiley Face" class="ml-2">
                     </div>
                     <p class="mb-2">Hello! I'm Brendan, an undergraduate student at the National University of
                         Singapore,
@@ -1232,6 +1233,31 @@
 
         // Initial call to display the time immediately
         updateClock();
+
+        // Function to size the smiley image based on text height
+        function sizeSmiley() {
+            const myNameText = document.getElementById('myNameText');
+            const smileyImage = document.getElementById('smileyImage');
+
+            if (myNameText && smileyImage) {
+                const textHeight = myNameText.offsetHeight;
+                smileyImage.style.width = `${textHeight}px`;
+                smileyImage.style.height = `${textHeight}px`;
+            }
+        }
+
+        // Size smiley on page load
+        window.addEventListener('load', sizeSmiley);
+
+        // Size smiley on window resize, with debounce
+        let smileyResizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(smileyResizeTimeout);
+            smileyResizeTimeout = setTimeout(sizeSmiley, 100);
+        });
+
+        // Initial call to size smiley
+        sizeSmiley();
     </script>
 </body>
 
