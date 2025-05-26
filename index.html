@@ -2,549 +2,882 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brendan Teo</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    keyframes: {
-                        typing: {
-                            "0%": {
-                                width: "0%"
-                            },
-                            "20%": {
-                                width: "100%"
-                            },
-                            "100%": {
-                                width: "100%"
-                            }
-                        },
-                        blink: {
-                            "50%": {
-                                borderColor: "transparent"
-                            },
-                            "100%": {
-                                borderColor: "black"
-                            }
-                        },
-                        bounce: {
-                            "0%, 100%": {
-                                transform: "translateY(0)"
-                            },
-                            "50%": {
-                                transform: "translateY(-5px)"
-                            }
-                        }
-                    },
-                    animation: {
-                        typing: "typing 8s steps(20) infinite",
-                        bounce: "bounce 2s ease-in-out infinite"
-                    }
-                }
-            }
+    <style>
+        /* Custom CSS for the classic Windows 95 3D effect */
+        .win95-border-raised {
+            border-top: 2px solid #FFFFFF;
+            /* Highlight top */
+            border-left: 2px solid #FFFFFF;
+            /* Highlight left */
+            border-right: 2px solid #808080;
+            /* Shadow right */
+            border-bottom: 2px solid #808080;
+            /* Shadow bottom */
+            box-shadow: 2px 2px 0 #000000;
+            /* Outer black shadow for depth */
         }
-    </script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        .win95-border-pressed {
+            border-top: 2px solid #808080;
+            /* Shadow top */
+            border-left: 2px solid #808080;
+            /* Shadow left */
+            border-right: 2px solid #FFFFFF;
+            /* Highlight right */
+            border-bottom: 2px solid #FFFFFF;
+            /* Highlight bottom */
+            box-shadow: none;
+            /* Remove outer shadow when pressed */
+        }
+
+        /* Styles for the Start Button's "open" state (when menu is visible) */
+        #startButton.is-open {
+            background-color: #B0B0B0;
+            /* Slightly darker gray */
+            border-top: 2px solid #808080;
+            /* Reverse borders */
+            border-left: 2px solid #808080;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            padding-top: 6px;
+            /* Shift content down */
+            padding-bottom: 2px;
+            /* Shift content down */
+            padding-left: 14px;
+            /* Shift content right */
+            padding-right: 10px;
+            /* Shift content right */
+            box-shadow: none;
+        }
+
+        /* Styles for menu items when their sub-menu is open or they are hovered */
+        .menu-item.is-submenu-open,
+        .menu-item:hover:not(.no-hover-effect) {
+            background-color: #000080;
+            /* Dark blue background */
+            color: #FFFFFF;
+            /* White text */
+        }
+
+        /* Ensure the body takes full viewport height for centering content */
+        body {
+            min-height: 100vh;
+            font-family: 'MS Sans Serif', 'Arial', sans-serif;
+            /* Changed font to MS Sans Serif with fallbacks */
+            background-color: #008080;
+            /* Windows 95 desktop background color */
+            display: flex;
+            /* Added for flex-grow to work correctly */
+            flex-direction: column;
+            /* Added for flex-grow to work correctly */
+            position: relative;
+            /* Essential for absolute positioning of icons */
+        }
+
+        /* Base font size for menu items to match Win95 aesthetic */
+        .menu-item {
+            font-size: 15px;
+            /* Typical Windows 95 menu item font size */
+            line-height: 1.2;
+            /* Adjust line height for spacing */
+            padding-top: 2px;
+            padding-bottom: 2px;
+            padding-left: 1rem;
+            /* Equivalent to px-4 */
+            padding-right: 1rem;
+            /* Equivalent to px-4 */
+        }
+
+        /* Specific styling for the vertical Windows95 text */
+        .windows95-text {
+            position: absolute;
+            /* Ensure absolute positioning relative to its parent */
+            top: 50%;
+            /* Center vertically */
+            left: 50%;
+            /* Center horizontally */
+            transform: translate(-50%, -50%) rotate(-90deg);
+            /* Center and rotate */
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+        }
+
+        /* Styling for desktop icons */
+        .win95-desktop-icon {
+            padding: 4px;
+            /* Padding around the icon and text */
+            border: 2px solid transparent;
+            /* Default transparent border */
+            outline: 1px dotted transparent;
+            /* Default transparent outline */
+            transition: all 0.05s linear;
+            /* Quick transition for hover/active */
+            width: 80px;
+            /* Fixed width for icon container */
+            text-align: center;
+            /* Center text below icon */
+            z-index: 10;
+            /* Ensure icons are above the background but below taskbar/menu */
+        }
+
+        .win95-desktop-icon:hover {
+            background-color: rgba(0, 0, 128, 0.3);
+            /* Light blue background on hover */
+            border-color: #000080;
+            /* Dark blue border on hover */
+            outline-color: #FFFFFF;
+            /* White dotted outline */
+        }
+
+        .win95-desktop-icon:active {
+            background-color: rgba(0, 0, 128, 0.5);
+            /* Darker blue on active */
+            border-color: #000080;
+            /* Dark blue border on active */
+            outline-color: #FFFFFF;
+            /* White dotted outline */
+        }
+
+        /* Specific style for desktop icon text to make it lighter/less bold and smaller */
+        .win95-desktop-icon .icon-text {
+            font-weight: normal;
+            /* Changed from 100 to normal for wider browser compatibility with MS Sans Serif */
+            font-size: 11px;
+            /* Made smaller than text-xs (12px) */
+            line-height: 1.1;
+            /* Slightly tighter line-height for smaller text */
+        }
+
+        /* Styles for the new Win95 window */
+        .win95-window-resume {
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 600px;
+            height: 300px;
+            background-color: #C0C0C0;
+            /* Standard Win95 window background */
+            z-index: 20;
+            /* Above desktop icons, below taskbar/menu if it overlaps */
+            resize: both;
+            /* Allow resizing */
+            overflow: auto;
+            /* Scrollbars if content exceeds */
+            min-width: 200px;
+            min-height: 150px;
+        }
+
+        .win95-title-bar {
+            background: linear-gradient(to right, #000080, #108CC6);
+            /* Win95 blue gradient */
+            color: #FFFFFF;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            height: 20px;
+            /* Typical title bar height */
+            cursor: grab;
+            /* Cursor indicates it's draggable */
+            user-select: none;
+            /* Prevent text selection during drag */
+        }
+
+        .win95-title-bar-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .win95-title-bar-button {
+            width: 16px;
+            /* Standard button size */
+            height: 14px;
+            /* Standard button size */
+            background-color: #C0C0C0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            line-height: 1;
+            cursor: pointer;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #808080;
+            border-bottom: 1px solid #808080;
+            font-family: 'Marlett', 'MS Sans Serif', sans-serif;
+            /* Marlett font for symbols */
+        }
+
+        .win95-title-bar-button:active {
+            border-top: 1px solid #808080;
+            border-left: 1px solid #808080;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+            padding-top: 1px;
+            /* Simulate press down */
+            padding-left: 1px;
+        }
+
+        .win95-window-content {
+            padding: 8px;
+            background-color: #FFFFFF;
+            /* Blank content area */
+            border-top: 2px solid #808080;
+            /* Inner border from title bar */
+            border-left: 2px solid #808080;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            height: calc(100% - 20px);
+            /* Fill remaining space below title bar */
+            box-sizing: border-box;
+            /* Include padding and border in height */
+        }
+    </style>
 </head>
 
-<body class="bg-[#d7f5f4]">
-    <!-- Toggling Arrow -->
-    <!-- Responsive navbar-->
-    <nav class="fixed top-0 left-0 right-0 bg-green-950/90 backdrop-blur-sm z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="index.html"
-                            class="px-3 py-2 rounded-md text-sm font-medium bg-green-800/50 text-white">Home</a>
-                        <a href="projects.html"
-                            class="px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-green-800/50">Projects</a>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <button type="button"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-green-800/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+<body class="flex flex-col justify-end items-start relative">
+    <div id="myResumeIcon" class="absolute top-4 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+        <img src="assets/resume_logo.png" alt="My Resume" class="w-8 h-8 object-contain mb-1"
+            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=P';">
+        <span class="text-white text-center whitespace-nowrap icon-text">My Resume</span>
+    </div>
+
+    <div class="absolute top-20 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+        <img src="assets/profile_logo.png" alt="My Profile" class="w-8 h-8 object-contain mb-1"
+            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=R';">
+        <span class="text-white text-center whitespace-nowrap icon-text">My Profile</span>
+    </div>
+
+    <div class="absolute top-36 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+        <img src="assets/projects_logo.png" alt="My Projects" class="w-8 h-8 object-contain mb-1"
+            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=PR';">
+        <span class="text-white text-center whitespace-nowrap icon-text">My Projects</span>
+    </div>
+
+    <div id="myResumeWindow" class="win95-window-resume win95-border-raised hidden bg-white">
+        <div class="win95-title-bar">
+            <span>My Resume</span>
+            <div class="win95-title-bar-buttons">
+                <button class="win95-title-bar-button close-button">X</button>
             </div>
         </div>
-    </nav>
-
-    <!-- Add padding to the top of the main content to account for fixed navbar -->
-    <div class="pt-16">
-        <div class="flex flex-col md:flex-row items-center justify-center min-h-[40vh] font-sans">
-            <div class="w-full px-2 sm:px-4 md:px-0 md:w-auto flex flex-col md:flex-row items-center md:justify-center">
-                <!-- Card wrapper for mobile only -->
-                <div
-                    class="w-full bg-white rounded-3xl shadow-lg p-4 flex flex-col items-center md:shadow-none md:bg-transparent md:rounded-none md:p-0 md:flex-row md:items-start md:space-x-8">
-                    <div
-                        class="relative w-32 h-32 sm:w-40 sm:h-40 md:w-60 md:h-60 lg:w-96 lg:h-96 xl:w-[28rem] xl:h-[28rem] overflow-hidden rounded-3xl mb-4 md:mb-0 flex-shrink-0 aspect-square">
-                        <img src="assets/portfolio_pic.jpeg" alt="Profile picture"
-                            class="w-full h-full object-cover rounded-3xl">
+        <div class="win95-window-content bg-grey">
+            <div class="min-h-screen pt-4 p-8">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-center mb-6">
+                        <a href="assets/Teo-Hao-Yi-Brendan-2025.pdf" download class="inline-flex items-center px-4 py-2 bg-gray-300 text-black font-bold win95-border-raised
+                                active:bg-gray-400 active:win95-border-pressed active:pt-[6px] active:pb-[2px] active:pl-[14px] active:pr-[10px]
+                                hover:bg-gray-400 transition-none">
+                            <i class="fas fa-download mr-2"></i>
+                            Download Resume
+                        </a>
                     </div>
-                    <div class="text-center md:text-left flex flex-col items-center md:items-start">
-                        <div class="w-max">
-                            <h1
-                                class="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-black text-4xl md:text-6xl font-extrabold text-black leading-tight mb-4 md:mb-6">
-                                Brendan Teo</h1>
-                        </div>
-                        <p class="text-black text-base md:text-lg mb-4 md:mb-6 max-w-md mx-auto md:mx-0">Data Automation
-                            Intern || Information Systems Undergraduate</p>
-                        <div class="flex space-x-6 mb-8 md:mb-10 justify-center md:justify-start">
-                            <a href="https://www.linkedin.com/in/brendanteohaoyi/" target="_blank"
-                                class="text-black hover:text-gray-600 transition-colors duration-300">
-                                <i class="fab fa-linkedin text-2xl"></i>
-                            </a>
-                            <a href="https://github.com/brendanteo269" target="_blank"
-                                class="text-black hover:text-gray-600 transition-colors duration-300">
-                                <i class="fab fa-github text-2xl"></i>
-                            </a>
-                            <a href="https://www.instagram.com/b.rendanteo/" target="_blank"
-                                class="text-black hover:text-gray-600 transition-colors duration-300">
-                                <i class="fab fa-instagram text-2xl"></i>
-                            </a>
-                            <a href="mailto:brendanteo269@gmail.com"
-                                class="text-black hover:text-gray-600 transition-colors duration-300">
-                                <i class="fas fa-envelope text-2xl"></i>
-                            </a>
-                        </div>
-                        <div
-                            class="record-player-container fixed left-0 top-1/2 transform -translate-y-1/2 w-full max-w-[132px] mx-auto scale-[0.4] z-40 transition-transform duration-500 ease-in-out">
-                            <link rel="stylesheet" href="css/record-player.css" />
-                            <div class="player">
-                                <div class="record">
-                                    <div class="label"></div>
-                                </div>
-                                <div class="tone-arm">
-                                    <div class="control"></div>
-                                </div>
-                                <button class="btn"></button>
+                    <main class="font-jost hyphens-manual">
+                        <section
+                            class="p-3 my-auto mx-auto max-w-3xl bg-white rounded-2xl border-2 border-gray-700 sm:p-9 md:p-16 lg:mt-6 print:border-0 page print:max-w-letter print:max-h-letter print:mx-0 print:my-o xsm:p-8 print:bg-white md:max-w-letter md:h-letter lg:h-letter">
+                            <header
+                                class="inline-flex justify-between items-baseline mb-2 w-full align-top border-b-2 border-gray-300 top-0 bg-white z-10">
+                                <section class="block">
+                                    <h1 class="mb-0 text-5xl font-bold text-gray-700">
+                                        Teo Hao Yi Brendan
+                                    </h1>
+                                    <h2 class="m-0 ml-2 text-2xl font-semibold text-gray-700 leading-snugish">
+                                        National University of Singapore
+                                    </h2>
+                                    <h3 class="m-0 mt-2 ml-2 text-xl font-semibold text-gray-500 leading-snugish">
+                                        Singapore, Singapore
+                                    </h3>
+                                    <br>
+                                </section>
+                            </header>
 
-                            </div>
-                            <audio loop class="my-song" src="audio/back_pocket.mp3" preload="auto"></audio>
-                            <script src="js/scripts.js"></script>
-                        </div>
-                    </div>
+                            <section
+                                class="col-gap-8 print:col-count-2 print:h-letter-col-full col-fill-balance md:col-count-2 md:h-letter-col-full">
+                                <section class="flex-col">
+
+                                    <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0">
+                                        <section class="break-inside-avoid">
+                                            <h2
+                                                class="mb-4 text-xl font-bold tracking-widest text-gray-700 print:font-normal">
+                                                SUMMARY
+                                            </h2>
+                                            <section class="mb-2 break-inside-avoid">
+                                                <p class="mt-2 leading-normal text-gray-700 text-md">
+                                                    All-rounded undergraduate student with a passion for Product
+                                                    Management and
+                                                    SDLC. Strong proven track record of
+                                                    innovating simple yet powerful and useful products/processes to
+                                                    improve user
+                                                    experience and workflow.
+                                                </p>
+                                            </section>
+                                        </section>
+                                    </section>
+
+                                    <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0 break-inside-avoid">
+                                        <section class="break-inside-avoid">
+                                            <h2
+                                                class="mb-4 text-lg font-bold tracking-widest text-gray-700 print:font-normal">
+                                                EDUCATION
+                                            </h2>
+                                            <section class="mt-2 pb-3 border-b-2 break-inside-avoid">
+                                                <header>
+                                                    <h3 class="text-lg font-semibold text-gray-700 leading-snugish">
+                                                        National University of Singapore
+                                                    </h3>
+                                                    <p class="leading-normal text-gray-500 text-md">
+                                                        2023 &ndash; 2027 | Bachelor of Computing in Information Systems
+                                                    </p>
+                                                </header>
+                                                <ul class="mt-2 list-disc list-inside text-gray-800 text-md">
+                                                    <li>
+                                                        <span class="font-semibold text-md">
+                                                            Major:
+                                                        </span>
+                                                        Information Systems
+                                                    </li>
+                                                    <li>
+                                                        <span class="font-semibold text-md">
+                                                            Minor:
+                                                        </span>
+                                                        Psychology
+                                                    </li>
+                                                    <li>
+                                                        <span class="font-semibold text-md">
+                                                            Skills:
+                                                        </span>
+                                                        Web Development, Data Engineering, Software Engineering
+                                                    </li>
+                                                </ul>
+                                            </section>
+
+                                            <section class="pt-3 pb-4 mt-4 break-inside-avoid">
+                                                <header>
+                                                    <h3
+                                                        class="flex-grow text-lg font-semibold text-gray-700 leading-snugish">
+                                                        Victoria Junior College
+                                                    </h3>
+                                                    <p class="leading-normal text-gray-500 text-md">
+                                                        2018 &ndash; 2019
+                                                    </p>
+                                                </header>
+                                                <ul class="mt-2 list-disc list-inside text-gray-800 text-md">
+                                                    <li>
+                                                        <span class="font-semibold text-md">
+                                                            Subject Combination:
+                                                        </span>
+                                                        PCME 4H2
+                                                    </li>
+                                                    <li>
+                                                        <span class="font-semibold text-md">
+                                                            Grade
+                                                        </span>
+                                                        AAAA/AA
+                                                    </li>
+                                                    <li>
+                                                        <span class="font-semibold text-md">
+                                                            Projects and Extracurriculars
+                                                        </span>
+                                                        Project Mushroom, OVIA'19, Tennis, Taekwondo
+                                                    </li>
+                                                </ul>
+                                            </section>
+                                        </section>
+                                    </section>
+
+                                    <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0 break-inside-avoid">
+                                        <section class="break-inside-avoid">
+                                            <h2
+                                                class="mb-6 text-lg font-bold tracking-widest text-gray-700 print:font-normal">
+                                                SKILLS
+                                            </h2>
+                                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                <a href="https://developer.mozilla.org/en-US/docs/Web/HTML"
+                                                    target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-html5 text-2xl text-orange-500 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">HTML</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://developer.mozilla.org/en-US/docs/Web/CSS"
+                                                    target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-css3-alt text-2xl text-blue-500 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">CSS</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://tailwindcss.com/" target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-css3 text-2xl text-cyan-500 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">Tailwind</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+                                                    target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-js text-2xl text-yellow-500 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">JavaScript</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://www.python.org/" target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-python text-2xl text-blue-600 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">Python</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://reactjs.org/" target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-react text-2xl text-blue-400 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">React</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <div
+                                                    class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                    <i class="fas fa-chart-line text-2xl text-green-500 mr-3"></i>
+                                                    <span class="font-medium text-gray-700">Data Analysis</span>
+                                                    <i
+                                                        class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                </div>
+                                                <a href="https://www.w3schools.com/sql/" target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fas fa-database text-2xl text-purple-500 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">SQL</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://airflow.apache.org/" target="_blank" class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <span class="font-medium text-gray-700">Apache Airflow</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="https://www.microsoft.com/en-us/microsoft-365" target="_blank"
+                                                    class="group">
+                                                    <div
+                                                        class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
+                                                        <i class="fab fa-microsoft text-2xl text-blue-600 mr-3"></i>
+                                                        <span class="font-medium text-gray-700">MS Suite</span>
+                                                        <i
+                                                            class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </section>
+                                    </section>
+
+                                    <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0">
+                                        <section class="break-inside-avoid">
+                                            <h2
+                                                class="mb-4 text-xl font-black tracking-widest text-gray-800 print:font-normal">
+                                                EXPERIENCE
+                                            </h2>
+                                            <section class="mb-2 pb-3 border-b-2 border-gray-300 break-inside-avoid">
+                                                <header>
+                                                    <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                        Data Automation and Dashboard Intern
+                                                        <span
+                                                            class="inline-block animate-bounce bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold ml-2">In
+                                                            Progress!</span>
+                                                    </h3>
+                                                    <p class="text-sm leading-normal text-gray-500">
+                                                        May 2025 &ndash; Aug 2025 | Workforce Singapore
+                                                    </p>
+                                                </header>
+                                                <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Attached to the Business and Service Excellence team to carry
+                                                        out data
+                                                        automation
+                                                        of different pipelines using Open Government Products such as
+                                                        Plumber.
+                                                    </li>
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Leveraged data visualisation software such as Tableau for
+                                                        exploratory
+                                                        data analysis
+                                                        to improve internal KPIs and client satisfaction.
+                                                    </li>
+                                                </ul>
+                                            </section>
+
+                                            <section class="pt-3 pb-3 border-b-2 border-gray-300 break-inside-avoid">
+                                                <header>
+                                                    <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                        Systems and Process Intern
+                                                    </h3>
+                                                    <p class="text-sm text-gray-500 leading-snugish">
+                                                        Jan 2025 &ndash; Apr 2025 | National Youth Council
+                                                    </p>
+                                                </header>
+                                                <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Optimised and improved existing workflows to streamline data
+                                                        collection
+                                                        and updating within cross-platform systems.
+                                                        Managed weekly database updating and cleaning.
+                                                    </li>
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Embarked on various projects to create data visualisations to
+                                                        tie data
+                                                        sources together for easier reference and report
+                                                        creation on PowerBI and Excel.
+                                                    </li>
+                                                </ul>
+                                            </section>
+
+                                            <section class="pt-3 pb-3 border-b-2 border-gray-300 break-inside-avoid">
+                                                <header>
+                                                    <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                        Product Management Intern
+                                                    </h3>
+                                                    <p class="text-sm text-gray-500 leading-snugish">
+                                                        Sept 2024 &ndash; Oct 2024 | Fraxtor Singapore
+                                                    </p>
+                                                </header>
+                                                <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Collaborated with Product Managers to facilitate User Acceptance
+                                                        Testing
+                                                        (UAT), proactively addressing and resolving
+                                                        backend and frontend issues in a timely manner.
+                                                    </li>
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Contributed to the instruction of the new platform to sister
+                                                        companies,
+                                                        supporting informed product management
+                                                        decisions.
+                                                    </li>
+                                                </ul>
+                                            </section>
+
+                                            <section class="pt-3 mb-2 border-b-0 border-gray-300 break-inside-avoid">
+                                                <header>
+                                                    <h3 class="font-semibold text-gray-800 text-md leading-snugish">
+                                                        Junior Account Manager & Data Coordinator
+                                                    </h3>
+                                                    <p class="text-sm text-gray-500 leading-snugish">
+                                                        Feb 2023 &ndash; July 2023 | Grab
+                                                    </p>
+                                                </header>
+                                                <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Manage smaller-sized accounts that have onboarded with Grab.
+                                                        Provide
+                                                        timely business reviews as and when required, while also
+                                                        processing
+                                                        pulled data and analysing data sets to provide relevant and
+                                                        tailored
+                                                        solutions.
+                                                    </li>
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Assisted with early-stage adoption of Dine-in Deals.
+                                                    </li>
+                                                    <li>
+                                                        <span
+                                                            class="text-gray-500 transform -translate-y-px select-none">
+                                                            &rsaquo;
+                                                        </span>
+                                                        Assisted account managers in Grab, through pulling data and
+                                                        providing
+                                                        auxiliary information when requested
+                                                    </li>
+                                                </ul>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </section>
+                            </section>
+                    </main>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content Section -->
-    <div class="min-h-screen pt-4 p-8">
-        <div class="max-w-7xl mx-auto">
-            <!-- Download Button -->
-            <div class="flex justify-center mb-6">
-                <a href="assets/resume.pdf" download
-                    class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-300 shadow-sm">
-                    <i class="fas fa-download mr-2"></i>
-                    Download Resume
-                </a>
-            </div>
-            <main class="font-jost hyphens-manual">
-                <!-- Page -->
-                <section
-                    class="p-3 my-auto mx-auto max-w-3xl bg-gray-100 rounded-2xl border-2 border-gray-700 sm:p-9 md:p-16 lg:mt-6 print:border-0 page print:max-w-letter print:max-h-letter print:mx-0 print:my-o xsm:p-8 print:bg-white md:max-w-letter md:h-letter lg:h-letter">
-                    <!-- Name -->
-                    <header
-                        class="inline-flex justify-between items-baseline mb-2 w-full align-top border-b-2 border-gray-300">
-                        <section class="block">
-                            <h1 class="mb-0 text-5xl font-bold text-gray-700">
-                                Teo Hao Yi Brendan
-                            </h1>
-                            <!--Job Title-->
-                            <h2 class="m-0 ml-2 text-2xl font-semibold text-gray-700 leading-snugish">
-                                National University of Singapore
-                            </h2>
-                            <!--Location -->
-                            <h3 class="m-0 mt-2 ml-2 text-xl font-semibold text-gray-500 leading-snugish">
-                                Singapore, Singapore
-                            </h3>
-                            <br>
-                        </section>
-                        <!--   Initials Block         -->
-                    </header>
+    <div class="flex-grow w-full"></div>
 
-                    <!-- Column -->
-                    <section
-                        class="col-gap-8 print:col-count-2 print:h-letter-col-full col-fill-balance md:col-count-2 md:h-letter-col-full">
-                        <section class="flex-col">
+    <div id="startMenu"
+        class="hidden fixed bottom-[48px] left-0 w-56 bg-gray-300 win95-border-raised z-40 py-1 rounded-sm relative">
+        <div
+            class="absolute top-0 bottom-0 left-0 w-10 bg-gray-400 border-r-2 border-gray-500 flex items-center justify-center overflow-hidden">
+            <span class="text-black text-sm font-bold windows95-text">Windows95</span>
+        </div>
+        <ul class="ml-10">
+            <li id="startMenuMyResume" class="flex items-center gap-2 text-black cursor-pointer relative menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M2 4a2 2 0 012-2h4.586a1 1 0 01.707.293l3.414 3.414a1 1 0 00.293.707V16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm11.707 5.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                My Resume
+            </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V7.414L12.586 4H6z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                My Profile
+            </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 00-2.286.947c-.07.443-.386.56-.872.56-.807 0-1.267-.687-1.267-1.687s.46-1.687 1.267-1.687c-.486 0 .802.117.872.56a1.532 1.532 0 002.286.947c.38-1.56 2.6-1.56 2.98 0a1.532 1.532 0 002.286-.947c.07-.443.386-.56.872-.56.807 0 1.267.687 1.267 1.687s-.46 1.687-1.267 1.687c-.486 0-.802-.117-.872-.56a1.532 1.532 0 00-2.286-.947zM10 13a1 1 0 100-2 1 1 0 000 2zm-1 2a1 1 0 100-2 1 1 0 000 2zm2 0a1 1 0 100-2 1 1 0 000 2zm-1 2a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                My Projects
+            </li>
+        </ul>
 
-                            <!--Summary -->
-                            <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0">
-                                <!-- To keep in the same column -->
-                                <section class="break-inside-avoid">
-                                    <h2 class="mb-4 text-xl font-bold tracking-widest text-gray-700 print:font-normal">
-                                        SUMMARY
-                                    </h2>
-                                    <section class="mb-2 break-inside-avoid">
-                                        <p class="mt-2 leading-normal text-gray-700 text-md">
-                                            All-rounded undergraduate student with a passion for Product Management and
-                                            SDLC. Strong proven track record of
-                                            innovating simple yet powerful and useful products/processes to improve user
-                                            experience and workflow.
-                                        </p>
-                                    </section>
-                                </section>
-                            </section>
-
-                            <!--Education -->
-                            <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0 break-inside-avoid">
-                                <!-- To keep in the same column -->
-                                <section class="break-inside-avoid">
-                                    <h2 class="mb-4 text-lg font-bold tracking-widest text-gray-700 print:font-normal">
-                                        EDUCATION
-                                    </h2>
-                                    <!-- school -->
-                                    <section class="mt-2 pb-3 border-b-2 break-inside-avoid">
-                                        <header>
-                                            <h3 class="text-lg font-semibold text-gray-700 leading-snugish">
-                                                National University of Singapore
-                                            </h3>
-                                            <p class="leading-normal text-gray-500 text-md">
-                                                2023 &ndash; 2027 | Bachelor of Computing in Information Systems
-                                            </p>
-                                        </header>
-                                        <ul class="mt-2 list-disc list-inside text-gray-800 text-md">
-                                            <li>
-                                                <span class="font-semibold text-md">
-                                                    Major:
-                                                </span>
-                                                Information Systems
-                                            </li>
-                                            <li>
-                                                <span class="font-semibold text-md">
-                                                    Minor:
-                                                </span>
-                                                Psychology
-                                            </li>
-                                            <li>
-                                                <span class="font-semibold text-md">
-                                                    Skills:
-                                                </span>
-                                                Web Development, Data Engineering, Software Engineering
-                                            </li>
-                                        </ul>
-                                    </section>
-
-                                    <!--school 2-->
-                                    <section class="pt-3 pb-4 mt-4 break-inside-avoid">
-                                        <header>
-                                            <h3 class="flex-grow text-lg font-semibold text-gray-700 leading-snugish">
-                                                Victoria Junior College
-                                            </h3>
-                                            <p class="leading-normal text-gray-500 text-md">
-                                                2018 &ndash; 2019
-                                            </p>
-                                        </header>
-                                        <ul class="mt-2 list-disc list-inside text-gray-800 text-md">
-                                            <li>
-                                                <span class="font-semibold text-md">
-                                                    Subject Combination:
-                                                </span>
-                                                PCME 4H2
-                                            </li>
-                                            <li>
-                                                <span class="font-semibold text-md">
-                                                    Grade
-                                                </span>
-                                                AAAA/AA
-                                            </li>
-                                            <li>
-                                                <span class="font-semibold text-md">
-                                                    Projects and Extracurriculars
-                                                </span>
-                                                Project Mushroom, OVIA'19, Tennis, Taekwondo
-                                            </li>
-                                        </ul>
-                                    </section>
-                                </section>
-                            </section>
-
-                            <!--Begin Skills -->
-                            <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0 break-inside-avoid">
-                                <!-- To keep in the same column -->
-                                <section class="break-inside-avoid">
-                                    <h2 class="mb-6 text-lg font-bold tracking-widest text-gray-700 print:font-normal">
-                                        SKILLS
-                                    </h2>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        <!-- HTML -->
-                                        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank"
-                                            class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-html5 text-2xl text-orange-500 mr-3"></i>
-                                                <span class="font-medium text-gray-700">HTML</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- CSS -->
-                                        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank"
-                                            class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-css3-alt text-2xl text-blue-500 mr-3"></i>
-                                                <span class="font-medium text-gray-700">CSS</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- Tailwind -->
-                                        <a href="https://tailwindcss.com/" target="_blank" class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-css3 text-2xl text-cyan-500 mr-3"></i>
-                                                <span class="font-medium text-gray-700">Tailwind</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- JavaScript -->
-                                        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-                                            target="_blank" class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-js text-2xl text-yellow-500 mr-3"></i>
-                                                <span class="font-medium text-gray-700">JavaScript</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- Python -->
-                                        <a href="https://www.python.org/" target="_blank" class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-python text-2xl text-blue-600 mr-3"></i>
-                                                <span class="font-medium text-gray-700">Python</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- React -->
-                                        <a href="https://reactjs.org/" target="_blank" class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-react text-2xl text-blue-400 mr-3"></i>
-                                                <span class="font-medium text-gray-700">React</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- Data Analysis -->
-                                        <div
-                                            class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                            <i class="fas fa-chart-line text-2xl text-green-500 mr-3"></i>
-                                            <span class="font-medium text-gray-700">Data Analysis</span>
-                                            <i
-                                                class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                        </div>
-                                        <!-- SQL -->
-                                        <a href="https://www.w3schools.com/sql/" target="_blank" class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fas fa-database text-2xl text-purple-500 mr-3"></i>
-                                                <span class="font-medium text-gray-700">SQL</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- Airflow -->
-                                        <a href="https://airflow.apache.org/" target="_blank" class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <img src="assets/airflow_logo.png" alt="Apache Airflow"
-                                                    class="w-8 h-8 mr-3">
-                                                <span class="font-medium text-gray-700">Apache Airflow</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                        <!-- MS Suite -->
-                                        <a href="https://www.microsoft.com/en-us/microsoft-365" target="_blank"
-                                            class="group">
-                                            <div
-                                                class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 h-14 hover:scale-105 hover:border-gray-300 relative">
-                                                <i class="fab fa-microsoft text-2xl text-blue-600 mr-3"></i>
-                                                <span class="font-medium text-gray-700">MS Suite</span>
-                                                <i
-                                                    class="fas fa-external-link-alt text-gray-400 absolute right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </section>
-                            </section>
-
-                            <!--Experience -->
-                            <section class="py-6 mt-0 border-b-4 border-gray-300 first:mt-0">
-                                <!-- To keep in the same column -->
-                                <section class="break-inside-avoid">
-                                    <h2 class="mb-4 text-xl font-black tracking-widest text-gray-800 print:font-normal">
-                                        EXPERIENCE
-                                    </h2>
-                                    <!--Job 1-->
-                                    <section class="mb-2 pb-3 border-b-2 border-gray-300 break-inside-avoid">
-                                        <header>
-                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
-                                                Data Automation and Dashboard Intern
-                                                <span
-                                                    class="inline-block animate-bounce bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold ml-2">In
-                                                    Progress!</span>
-                                            </h3>
-                                            <p class="text-sm leading-normal text-gray-500">
-                                                May 2025 &ndash; Aug 2025 | Workforce Singapore
-                                            </p>
-                                        </header>
-                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Attached to the Business and Service Excellence team to carry out data
-                                                automation
-                                                of different pipelines using Open Government Products such as Plumber.
-                                            </li>
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Leveraged data visualisation software such as Tableau for exploratory
-                                                data analysis
-                                                to improve internal KPIs and client satisfaction.
-                                            </li>
-                                        </ul>
-                                    </section>
-
-                                    <!-- job 2  -->
-                                    <section class="pt-3 pb-3 border-b-2 border-gray-300 break-inside-avoid">
-                                        <header>
-                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
-                                                Systems and Process Intern
-                                            </h3>
-                                            <p class="text-sm text-gray-500 leading-snugish">
-                                                Jan 2025 &ndash; Apr 2025 | National Youth Council
-                                            </p>
-                                        </header>
-                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Optimised and improved existing workflows to streamline data collection
-                                                and updating within cross-platform systems.
-                                                Managed weekly database updating and cleaning.
-                                            </li>
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Embarked on various projects to create data visualisations to tie data
-                                                sources together for easier reference and report
-                                                creation on PowerBI and Excel.
-                                            </li>
-                                        </ul>
-                                    </section>
-
-                                    <!-- job 3 -->
-                                    <section class="pt-3 pb-3 border-b-2 border-gray-300 break-inside-avoid">
-                                        <header>
-                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
-                                                Product Management Intern
-                                            </h3>
-                                            <p class="text-sm text-gray-500 leading-snugish">
-                                                Sept 2024 &ndash; Oct 2024 | Fraxtor Singapore
-                                            </p>
-                                        </header>
-                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Collaborated with Product Managers to facilitate User Acceptance Testing
-                                                (UAT), proactively addressing and resolving
-                                                backend and frontend issues in a timely manner.
-                                            </li>
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Contributed to the instruction of the new platform to sister companies,
-                                                supporting informed product management
-                                                decisions.
-                                            </li>
-                                        </ul>
-                                    </section>
-
-                                    <!-- job 4 -->
-                                    <section class="pt-3 mb-2 border-b-0 border-gray-300 break-inside-avoid">
-                                        <header>
-                                            <h3 class="font-semibold text-gray-800 text-md leading-snugish">
-                                                Junior Account Manager & Data Coordinator
-                                            </h3>
-                                            <p class="text-sm text-gray-500 leading-snugish">
-                                                Feb 2023 &ndash; July 2023 | Grab
-                                            </p>
-                                        </header>
-                                        <ul class="pl-3 mt-2 font-normal text-gray-700 text-md leading-snugish">
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Manage smaller-sized accounts that have onboarded with Grab. Provide
-                                                timely business reviews as and when required, while also processing
-                                                pulled data and analysing data sets to provide relevant and tailored
-                                                solutions.
-                                            </li>
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Assisted with early-stage adoption of Dine-in Deals.
-                                            </li>
-                                            <li>
-                                                <span class="text-gray-500 transform -translate-y-px select-none">
-                                                    &rsaquo;
-                                                </span>
-                                                Assisted account managers in Grab, through pulling data and providing
-                                                auxiliary information when requested
-                                            </li>
-                                        </ul>
-                                    </section>
-                                </section>
-                            </section>
-                        </section>
-                    </section>
-                </section>
-            </main>
+        <div id="programsSubMenu"
+            class="hidden absolute top-0 left-full ml-1 w-56 bg-gray-300 win95-border-raised z-40 py-1 rounded-sm">
         </div>
     </div>
 
-    <!-- Footer-->
-    <footer class="bg-gray-200 text-gray-800 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-center">Copyright &copy; Brendan</p>
+    <div
+        class="fixed bottom-0 left-0 right-0 w-full h-12 bg-gray-300 flex items-center px-2 border-t-2 border-gray-500 z-50">
+
+        <button id="startButton"
+            class="start-button flex items-center gap-2 px-4 py-1 font-bold text-black cursor-pointer rounded-sm
+                       bg-gray-300 win95-border-raised
+                       active:bg-gray-400 active:win95-border-pressed active:pt-[6px] active:pb-[2px] active:pl-[14px] active:pr-[10px]">
+            <img src="assets/win95.png" alt="Windows 95 Logo" class="w-5 h-5 object-contain"
+                onerror="this.onerror=null;this.src='https://placehold.co/20x20/000080/FFFFFF?text=WIN';">
+            Start
+        </button>
+
+        <div class="flex-grow h-full flex items-center px-2">
+            <div class="w-full h-1 bg-gray-400 border-t border-gray-500 border-b border-white"></div>
         </div>
-    </footer>
-    <script></script>
+
+        <div
+            class="flex items-center h-full px-2 bg-gray-300 border-t-2 border-gray-500 border-l-2 border-white border-r-2 border-gray-500 border-b-2 border-gray-500 rounded-sm">
+            <div class="win95-border-pressed bg-gray-300 px-2 py-1 text-black text-sm font-semibold rounded-sm">
+                <span id="currentTime"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get references to elements
+        const startButton = document.getElementById('startButton');
+        const startMenu = document.getElementById('startMenu');
+
+        // New elements for the My Resume window
+        const myResumeIcon = document.getElementById('myResumeIcon');
+        const myResumeWindow = document.getElementById('myResumeWindow');
+        const myResumeWindowTitleBar = myResumeWindow.querySelector('.win95-title-bar');
+        const myResumeWindowCloseButton = myResumeWindow.querySelector('.close-button');
+
+        // New element for "My Resume" in the Start Menu
+        const startMenuMyResume = document.getElementById('startMenuMyResume');
+
+
+        let isDragging = false;
+        // Store the offset from the element's top-left to the mouse click point
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        // Function to update the clock
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // The hour '0' should be '12'
+            const minutesPadded = minutes < 10 ? '0' + minutes : minutes;
+
+            document.getElementById('currentTime').textContent = `${hours}:${minutesPadded} ${ampm}`;
+        }
+
+        // Toggle Start Menu visibility
+        function toggleStartMenu() {
+            startMenu.classList.toggle('hidden');
+            startButton.classList.toggle('is-open'); // Apply/remove pressed state
+
+            if (startMenu.classList.contains('hidden')) { // If menu is closing
+                // programsSubMenu.classList.add('hidden'); // This element isn't used
+            }
+        }
+
+        // Event listener for the Start Button
+        startButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent document click from immediately closing menu
+            toggleStartMenu();
+        });
+
+        // Close Start Menu if clicked outside
+        document.addEventListener('click', function (event) {
+            // If the click is not on the start button, not inside the start menu, and not inside the programs sub-menu
+            // Also ensure clicks inside the myResumeWindow or on the myResumeIcon don't close the start menu
+            if (!startButton.contains(event.target) && !startMenu.contains(event.target) && !myResumeWindow.contains(event.target) && !myResumeIcon.contains(event.target)) {
+                if (!startMenu.classList.contains('hidden')) {
+                    startMenu.classList.add('hidden');
+                    startButton.classList.remove('is-open');
+                }
+            }
+        });
+
+        // Function to open My Resume Window
+        function openMyResumeWindow() {
+            myResumeWindow.classList.remove('hidden');
+            // Close start menu if open when opening a window
+            if (!startMenu.classList.contains('hidden')) {
+                startMenu.classList.add('hidden');
+                startButton.classList.remove('is-open');
+            }
+        }
+
+        // Toggle My Resume Window visibility when desktop icon is clicked
+        myResumeIcon.addEventListener('click', openMyResumeWindow);
+
+        // Open My Resume Window when Start Menu item is clicked
+        startMenuMyResume.addEventListener('click', openMyResumeWindow);
+
+        // Close My Resume Window
+        myResumeWindowCloseButton.addEventListener('click', function () {
+            myResumeWindow.classList.add('hidden');
+        });
+
+        // Draggable functionality for My Resume Window
+        myResumeWindowTitleBar.addEventListener('mousedown', dragStart);
+
+        function dragStart(e) {
+            e.preventDefault(); // Prevent default browser drag behavior (e.g., image dragging)
+            if (e.button === 0) { // Only allow left-click drag
+                isDragging = true;
+
+                // Calculate the offset from the element's top-left to the mouse click point
+                const rect = myResumeWindow.getBoundingClientRect();
+                dragOffsetX = e.clientX - rect.left;
+                dragOffsetY = e.clientY - rect.top;
+
+                // Add these listeners to the document, so drag continues even if mouse leaves the window
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+
+                // Bring the dragged window to the front by increasing its z-index
+                myResumeWindow.style.zIndex = 30; // Higher than other elements, but taskbar/menu are 40/50
+
+                // Optional: Add a class to indicate dragging if you want to change cursor etc.
+                // myResumeWindow.classList.add('is-dragging');
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+
+                // Calculate the new position based on mouse position minus the initial offset
+                let newX = e.clientX - dragOffsetX;
+                let newY = e.clientY - dragOffsetY;
+
+                // Constrain window to viewport boundaries
+                const bodyWidth = document.body.offsetWidth;
+                const bodyHeight = document.body.offsetHeight;
+                const windowWidth = myResumeWindow.offsetWidth;
+                const windowHeight = myResumeWindow.offsetHeight;
+
+                // Right boundary
+                if (newX + windowWidth > bodyWidth) {
+                    newX = bodyWidth - windowWidth;
+                }
+                // Left boundary
+                if (newX < 0) {
+                    newX = 0;
+                }
+                // Bottom boundary (considering taskbar height of 48px)
+                if (newY + windowHeight > bodyHeight - 48) {
+                    newY = bodyHeight - windowHeight - 48;
+                }
+                // Top boundary
+                if (newY < 0) {
+                    newY = 0;
+                }
+
+                myResumeWindow.style.left = `${newX}px`;
+                myResumeWindow.style.top = `${newY}px`;
+            }
+        }
+
+        function dragEnd(e) {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', dragEnd);
+            myResumeWindow.style.zIndex = 20; // Revert z-index
+            // Optional: Remove the dragging class
+            // myResumeWindow.classList.remove('is-dragging');
+        }
+
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to display the time immediately
+        updateClock();
+    </script>
 </body>
 
 </html>
