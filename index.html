@@ -158,7 +158,9 @@
             top: 10%;
             left: 20%;
             width: 600px;
+            /* Default desktop size */
             height: 300px;
+            /* Default desktop size */
             background-color: #C0C0C0;
             /* Standard Win95 window background */
             z-index: 20;
@@ -169,6 +171,34 @@
             /* Scrollbars if content exceeds */
             min-width: 200px;
             min-height: 150px;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media (max-width: 768px) {
+
+            /* Adjust breakpoint as needed */
+            .win95-window-resume {
+                top: 5%;
+                /* Position closer to the top */
+                left: 5%;
+                /* Position closer to the left */
+                width: 90%;
+                /* Take up 90% of viewport width */
+                height: 90%;
+                /* Take up 90% of viewport height */
+                min-width: auto;
+                /* Remove fixed min-width for small screens */
+                min-height: auto;
+                /* Remove fixed min-height for small screens */
+                resize: none;
+                /* Disable resizing on small screens */
+            }
+
+            .win95-window-content {
+                /* Adjust padding or other content styles if necessary for small screens */
+                padding: 4px;
+                /* Reduce padding slightly */
+            }
         }
 
         .win95-title-bar {
