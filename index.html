@@ -124,6 +124,25 @@
             /* Ensure icons are above the background but below taskbar/menu */
         }
 
+        /* Adjusting icon positioning for better responsiveness */
+        #myResumeIcon {
+            top: 10px;
+            left: 10px;
+        }
+
+        #myProfileIcon {
+            top: 70px;
+            /* Adjusted spacing */
+            left: 10px;
+        }
+
+        /* Assuming the third icon is for Projects */
+        .win95-desktop-icon:nth-child(3) {
+            top: 130px;
+            /* Adjusted spacing */
+            left: 10px;
+        }
+
         .win95-desktop-icon:hover {
             background-color: rgba(0, 0, 128, 0.3);
             /* Light blue background on hover */
@@ -445,6 +464,10 @@
             /* Scrollbars if content exceeds */
             min-width: 150px;
             min-height: 100px;
+            top: 10px;
+            /* Position from top */
+            right: 10px;
+            /* Position from right */
         }
     </style>
 </head>
