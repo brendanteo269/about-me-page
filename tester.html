@@ -70,6 +70,12 @@
             /* Changed font to MS Sans Serif with fallbacks */
             background-color: #008080;
             /* Windows 95 desktop background color */
+            display: flex;
+            /* Added for flex-grow to work correctly */
+            flex-direction: column;
+            /* Added for flex-grow to work correctly */
+            position: relative;
+            /* Essential for absolute positioning of icons */
         }
 
         /* Base font size for menu items to match Win95 aesthetic */
@@ -99,10 +105,172 @@
             white-space: nowrap;
             /* Prevent text from wrapping */
         }
+
+        /* Styling for desktop icons */
+        .win95-desktop-icon {
+            padding: 4px;
+            /* Padding around the icon and text */
+            border: 2px solid transparent;
+            /* Default transparent border */
+            outline: 1px dotted transparent;
+            /* Default transparent outline */
+            transition: all 0.05s linear;
+            /* Quick transition for hover/active */
+            width: 80px;
+            /* Fixed width for icon container */
+            text-align: center;
+            /* Center text below icon */
+            z-index: 10;
+            /* Ensure icons are above the background but below taskbar/menu */
+        }
+
+        .win95-desktop-icon:hover {
+            background-color: rgba(0, 0, 128, 0.3);
+            /* Light blue background on hover */
+            border-color: #000080;
+            /* Dark blue border on hover */
+            outline-color: #FFFFFF;
+            /* White dotted outline */
+        }
+
+        .win95-desktop-icon:active {
+            background-color: rgba(0, 0, 128, 0.5);
+            /* Darker blue on active */
+            border-color: #000080;
+            /* Dark blue border on active */
+            outline-color: #FFFFFF;
+            /* White dotted outline */
+        }
+
+        /* Specific style for desktop icon text to make it lighter/less bold and smaller */
+        .win95-desktop-icon .icon-text {
+            font-weight: normal;
+            /* Changed from 100 to normal for wider browser compatibility with MS Sans Serif */
+            font-size: 11px;
+            /* Made smaller than text-xs (12px) */
+            line-height: 1.1;
+            /* Slightly tighter line-height for smaller text */
+        }
+
+        /* Styles for the new Win95 window */
+        .win95-window-profile {
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 600px;
+            height: 300px;
+            background-color: #C0C0C0;
+            /* Standard Win95 window background */
+            z-index: 20;
+            /* Above desktop icons, below taskbar/menu if it overlaps */
+            resize: both;
+            /* Allow resizing */
+            overflow: auto;
+            /* Scrollbars if content exceeds */
+            min-width: 200px;
+            min-height: 150px;
+        }
+
+        .win95-title-bar {
+            background: linear-gradient(to right, #000080, #108CC6);
+            /* Win95 blue gradient */
+            color: #FFFFFF;
+            padding: 2px 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            height: 20px;
+            /* Typical title bar height */
+            cursor: grab;
+            /* Cursor indicates it's draggable */
+            user-select: none;
+            /* Prevent text selection during drag */
+        }
+
+        .win95-title-bar-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .win95-title-bar-button {
+            width: 16px;
+            /* Standard button size */
+            height: 14px;
+            /* Standard button size */
+            background-color: #C0C0C0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            line-height: 1;
+            cursor: pointer;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #808080;
+            border-bottom: 1px solid #808080;
+            font-family: 'Marlett', 'MS Sans Serif', sans-serif;
+            /* Marlett font for symbols */
+        }
+
+        .win95-title-bar-button:active {
+            border-top: 1px solid #808080;
+            border-left: 1px solid #808080;
+            border-right: 1px solid #FFFFFF;
+            border-bottom: 1px solid #FFFFFF;
+            padding-top: 1px;
+            /* Simulate press down */
+            padding-left: 1px;
+        }
+
+        .win95-window-content {
+            padding: 8px;
+            background-color: #FFFFFF;
+            /* Blank content area */
+            border-top: 2px solid #808080;
+            /* Inner border from title bar */
+            border-left: 2px solid #808080;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            height: calc(100% - 20px);
+            /* Fill remaining space below title bar */
+            box-sizing: border-box;
+            /* Include padding and border in height */
+        }
     </style>
 </head>
 
-<body class="flex flex-col justify-end items-left relative">
+<body class="flex flex-col justify-end items-start relative">
+    <div id="myProfileIcon" class="absolute top-4 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+        <img src="assets/profile_logo.png" alt="My Profile" class="w-8 h-8 object-contain mb-1"
+            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=P';">
+        <span class="text-white text-center whitespace-nowrap icon-text">My Profile</span>
+    </div>
+
+    <div class="absolute top-20 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+        <img src="assets/resume_logo.png" alt="My Resume" class="w-8 h-8 object-contain mb-1"
+            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=R';">
+        <span class="text-white text-center whitespace-nowrap icon-text">My Resume</span>
+    </div>
+
+    <div class="absolute top-36 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+        <img src="assets/projects_logo.png" alt="My Projects" class="w-8 h-8 object-contain mb-1"
+            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=PR';">
+        <span class="text-white text-center whitespace-nowrap icon-text">My Projects</span>
+    </div>
+
+    <div id="myProfileWindow" class="win95-window-profile win95-border-raised hidden">
+        <div class="win95-title-bar">
+            <span>My Profile</span>
+            <div class="win95-title-bar-buttons">
+                <button class="win95-title-bar-button close-button">X</button>
+            </div>
+        </div>
+        <div class="win95-window-content">
+            Hello there! This is my Profile window.
+        </div>
+    </div>
+
     <div class="flex-grow w-full"></div>
 
     <div id="startMenu"
@@ -120,6 +288,12 @@
                         clip-rule="evenodd"></path>
                 </svg>
                 Programs
+                <svg class="w-4 h-4 absolute right-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                </svg>
             </li>
             <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
                 <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
@@ -139,10 +313,101 @@
                 </svg>
                 Settings
             </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Find
+            </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0V5.75A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Help
+            </li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM13 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z">
+                    </path>
+                </svg>
+                Run...
+            </li>
+            <li class="border-t border-gray-500 my-1"></li>
+            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Shut Down...
+            </li>
         </ul>
 
         <div id="programsSubMenu"
             class="hidden absolute top-0 left-full ml-1 w-56 bg-gray-300 win95-border-raised z-40 py-1 rounded-sm">
+            <ul>
+                <li
+                    class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer relative menu-item">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 4a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H3zm0 2h14v8H3V6zm2 2a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    Accessories
+                    <svg class="w-4 h-4 absolute right-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </li>
+                <li
+                    class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer relative menu-item">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 4a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H3zm0 2h14v8H3V6zm2 2a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    StartUp
+                    <svg class="w-4 h-4 absolute right-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </li>
+                <li
+                    class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M12 7a1 1 0 11-2 0 1 1 0 012 0zm-7 1a1 1 0 100-2 1 1 0 000 2zm12-1a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 100-2 1 1 0 000 2zm-7 1a1 1 0 100-2 1 1 0 000 2zm12-1a1 1 0 11-2 0 1 1 0 012 0zM5 15a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2zm-7 1a1 1 0 100-2 1 1 0 000 2zm12-1a1 1 0 11-2 0 1 1 0 012 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    MS-DOS Prompt
+                </li>
+                <li
+                    class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M12 7a1 1 0 11-2 0 1 1 0 012 0zm-7 1a1 1 0 100-2 1 1 0 000 2zm12-1a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 100-2 1 1 0 000 2zm-7 1a1 1 0 100-2 1 1 0 000 2zm12-1a1 1 0 11-2 0 1 1 0 012 0zM5 15a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2zm-7 1a1 1 0 100-2 1 1 0 000 2zm12-1a1 1 0 11-2 0 1 1 0 012 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    Windows Explorer
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -176,6 +441,18 @@
         const startMenu = document.getElementById('startMenu');
         const programsMenuItem = document.getElementById('programsMenuItem');
         const programsSubMenu = document.getElementById('programsSubMenu');
+
+        // New elements for the My Profile window
+        const myProfileIcon = document.getElementById('myProfileIcon');
+        const myProfileWindow = document.getElementById('myProfileWindow');
+        const myProfileWindowTitleBar = myProfileWindow.querySelector('.win95-title-bar');
+        const myProfileWindowCloseButton = myProfileWindow.querySelector('.close-button');
+
+        let isDragging = false;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
 
         // Function to update the clock
         function updateClock() {
@@ -234,7 +511,8 @@
         // Close Start Menu if clicked outside
         document.addEventListener('click', function (event) {
             // If the click is not on the start button, not inside the start menu, and not inside the programs sub-menu
-            if (!startButton.contains(event.target) && !startMenu.contains(event.target) && !programsSubMenu.contains(event.target)) {
+            // Also ensure clicks inside the myProfileWindow or on the myProfileIcon don't close the start menu
+            if (!startButton.contains(event.target) && !startMenu.contains(event.target) && !programsSubMenu.contains(event.target) && !myProfileWindow.contains(event.target) && !myProfileIcon.contains(event.target)) {
                 if (!startMenu.classList.contains('hidden')) {
                     startMenu.classList.add('hidden');
                     startButton.classList.remove('is-open');
@@ -243,6 +521,87 @@
                 }
             }
         });
+
+        // Toggle My Profile Window visibility
+        myProfileIcon.addEventListener('click', function () {
+            myProfileWindow.classList.toggle('hidden');
+            // Close start menu if open when opening a window
+            if (!startMenu.classList.contains('hidden')) {
+                startMenu.classList.add('hidden');
+                startButton.classList.remove('is-open');
+                programsSubMenu.classList.add('hidden');
+                programsMenuItem.classList.remove('is-submenu-open');
+            }
+        });
+
+        // Close My Profile Window
+        myProfileWindowCloseButton.addEventListener('click', function () {
+            myProfileWindow.classList.add('hidden');
+        });
+
+        // Draggable functionality for My Profile Window
+        myProfileWindowTitleBar.addEventListener('mousedown', dragStart);
+
+        function dragStart(e) {
+            e.preventDefault(); // Prevent default browser drag behavior (e.g., image dragging)
+            if (e.button === 0) { // Only allow left-click drag
+                isDragging = true;
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+
+                // Add these listeners to the document, so drag continues even if mouse leaves the window
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('mouseup', dragEnd);
+
+                // Bring the dragged window to the front by increasing its z-index
+                myProfileWindow.style.zIndex = 30; // Higher than other elements, but taskbar/menu are 40/50
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                xOffset = e.clientX - initialX;
+                yOffset = e.clientY - initialY;
+
+                // Constrain window to viewport boundaries
+                const bodyWidth = document.body.offsetWidth;
+                const bodyHeight = document.body.offsetHeight;
+                const windowWidth = myProfileWindow.offsetWidth;
+                const windowHeight = myProfileWindow.offsetHeight;
+
+                let newX = xOffset;
+                let newY = yOffset;
+
+                // Right boundary
+                if (newX + windowWidth > bodyWidth) {
+                    newX = bodyWidth - windowWidth;
+                }
+                // Left boundary
+                if (newX < 0) {
+                    newX = 0;
+                }
+                // Bottom boundary (considering taskbar height of 48px)
+                if (newY + windowHeight > bodyHeight - 48) {
+                    newY = bodyHeight - windowHeight - 48;
+                }
+                // Top boundary
+                if (newY < 0) {
+                    newY = 0;
+                }
+
+                myProfileWindow.style.left = `${newX}px`;
+                myProfileWindow.style.top = `${newY}px`;
+            }
+        }
+
+        function dragEnd(e) {
+            isDragging = false;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', dragEnd);
+            myProfileWindow.style.zIndex = 20; // Revert z-index
+        }
+
 
         // Update the clock every second
         setInterval(updateClock, 1000);
