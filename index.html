@@ -159,6 +159,26 @@
             left: 20%;
             width: 600px;
             /* Default desktop size */
+            height: 900px;
+            /* Default desktop size */
+            background-color: #C0C0C0;
+            /* Standard Win95 window background */
+            z-index: 20;
+            /* Above desktop icons, below taskbar/menu if it overlaps */
+            resize: both;
+            /* Allow resizing */
+            overflow: auto;
+            /* Scrollbars if content exceeds */
+            min-width: 200px;
+            min-height: 150px;
+        }
+
+        .win95-window {
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 600px;
+            /* Default desktop size */
             height: 300px;
             /* Default desktop size */
             background-color: #C0C0C0;
@@ -177,7 +197,7 @@
         @media (max-width: 768px) {
 
             /* Adjust breakpoint as needed */
-            .win95-window-resume {
+            .win95-window {
                 top: 5%;
                 /* Position closer to the top */
                 left: 5%;
@@ -277,7 +297,7 @@
         <span class="text-white text-center whitespace-nowrap icon-text">My Resume</span>
     </div>
 
-    <div class="absolute top-20 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
+    <div id="myProfileIcon" class="absolute top-20 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
         <img src="assets/profile_logo.png" alt="My Profile" class="w-8 h-8 object-contain mb-1"
             onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=R';">
         <span class="text-white text-center whitespace-nowrap icon-text">My Profile</span>
@@ -682,6 +702,53 @@
         </div>
     </div>
 
+    <div id="myProfileWindow" class="win95-window win95-border-raised hidden bg-white">
+        <div class="win95-title-bar">
+            <span>My Profile</span>
+            <div class="win95-title-bar-buttons">
+                <button class="win95-title-bar-button close-button">X</button>
+            </div>
+        </div>
+        <div class="win95-window-content bg-grey p-4 flex">
+            <div class="flex-shrink-0 mr-4">
+                <img src="assets/portfolio_pic.jpeg" alt="Brendan Teo's Portfolio Picture"
+                    class="w-64 h-64 object-cover">
+            </div>
+            <div class="flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center mb-2"> <span class="block text-lg font-bold">Teo Hao Yi Brendan</span>
+                        <img src="assets/smiley.png" alt="Smiley Face" class="w-5 h-5 ml-2">
+                    </div>
+                    <p class="mb-2">Hello! I'm Brendan, an undergraduate student at the National University of
+                        Singapore,
+                        pursuing a Bachelor of Computing in Information Systems with a minor in Psychology.</p>
+                    <p class="mb-2">My passion lies in <b>Product Management</b> and <b>User Experience</b> I have a
+                        strong
+                        track record of applying analytical thinking and technical skills to real-world
+                        problems through various internships in data automation and product/account management.
+                    </p>
+                </div>
+
+                <div class="flex justify-center space-x-4 mt-4">
+                    <a href="https://www.linkedin.com/in/brendanteohaoyi/" target="_blank"
+                        class="text-gray-700 hover:text-blue-700">
+                        Linkedin
+                    </a>
+                    <a href="https://github.com/brendanteo269" target="_blank"
+                        class="text-gray-700 hover:text-pink-600">
+                        Github
+                    </a>
+                    <a href="mailto:brendanteo269@gmail.com" target="_blank" class="text-gray-700 hover:text-gray-900">
+                        Email
+                    </a>
+                    <a href="https://instagram.com/b.rendanteo" target="_blank"
+                        class="text-gray-700 hover:text-red-600">
+                        Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="flex-grow w-full"></div>
 
     <div id="startMenu"
@@ -700,7 +767,8 @@
                 </svg>
                 My Resume
             </li>
-            <li class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
+            <li id="startMenuMyProfile"
+                class="flex items-center gap-2 text-black hover:bg-blue-600 hover:text-white cursor-pointer menu-item">
                 <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -754,20 +822,26 @@
         const startButton = document.getElementById('startButton');
         const startMenu = document.getElementById('startMenu');
 
-        // New elements for the My Resume window
+        // Elements for My Resume window
         const myResumeIcon = document.getElementById('myResumeIcon');
         const myResumeWindow = document.getElementById('myResumeWindow');
         const myResumeWindowTitleBar = myResumeWindow.querySelector('.win95-title-bar');
         const myResumeWindowCloseButton = myResumeWindow.querySelector('.close-button');
-
-        // New element for "My Resume" in the Start Menu
         const startMenuMyResume = document.getElementById('startMenuMyResume');
+
+        // New elements for My Profile window
+        const myProfileIcon = document.getElementById('myProfileIcon');
+        const myProfileWindow = document.getElementById('myProfileWindow');
+        const myProfileWindowTitleBar = myProfileWindow.querySelector('.win95-title-bar');
+        const myProfileWindowCloseButton = myProfileWindow.querySelector('.close-button');
+        const startMenuMyProfile = document.getElementById('startMenuMyProfile');
 
 
         let isDragging = false;
         // Store the offset from the element's top-left to the mouse click point
         let dragOffsetX = 0;
         let dragOffsetY = 0;
+        let activeWindow = null; // To keep track of the currently dragged/active window
 
         // Function to update the clock
         function updateClock() {
@@ -800,9 +874,9 @@
 
         // Close Start Menu if clicked outside
         document.addEventListener('click', function (event) {
-            // If the click is not on the start button, not inside the start menu, and not inside the programs sub-menu
-            // Also ensure clicks inside the myResumeWindow or on the myResumeIcon don't close the start menu
-            if (!startButton.contains(event.target) && !startMenu.contains(event.target) && !myResumeWindow.contains(event.target) && !myResumeIcon.contains(event.target)) {
+            // Check if the click is outside the start button, start menu, and all windows
+            const clickedInsideAnyWindow = document.querySelectorAll('.win95-window').some(window => window.contains(event.target));
+            if (!startButton.contains(event.target) && !startMenu.contains(event.target) && !clickedInsideAnyWindow) {
                 if (!startMenu.classList.contains('hidden')) {
                     startMenu.classList.add('hidden');
                     startButton.classList.remove('is-open');
@@ -810,37 +884,61 @@
             }
         });
 
-        // Function to open My Resume Window
-        function openMyResumeWindow() {
-            myResumeWindow.classList.remove('hidden');
+        // Function to open any window
+        function openWindow(windowElement) {
+            windowElement.classList.remove('hidden');
             // Close start menu if open when opening a window
             if (!startMenu.classList.contains('hidden')) {
                 startMenu.classList.add('hidden');
                 startButton.classList.remove('is-open');
             }
+            bringWindowToFront(windowElement); // Bring the opened window to front
         }
 
-        // Toggle My Resume Window visibility when desktop icon is clicked
-        myResumeIcon.addEventListener('click', openMyResumeWindow);
+        // Function to close any window
+        function closeWindow(windowElement) {
+            windowElement.classList.add('hidden');
+        }
 
-        // Open My Resume Window when Start Menu item is clicked
-        startMenuMyResume.addEventListener('click', openMyResumeWindow);
+        // Function to bring a window to the front
+        function bringWindowToFront(windowElement) {
+            // Reset z-index for all windows
+            document.querySelectorAll('.win95-window').forEach(win => {
+                win.style.zIndex = 20;
+            });
+            // Set z-index for the clicked window to bring it to front
+            windowElement.style.zIndex = 30;
+        }
 
-        // Close My Resume Window
-        myResumeWindowCloseButton.addEventListener('click', function () {
-            myResumeWindow.classList.add('hidden');
+        // Add click listeners to all windows to bring them to front on click
+        document.querySelectorAll('.win95-window').forEach(windowElement => {
+            windowElement.addEventListener('mousedown', function () {
+                bringWindowToFront(windowElement);
+            });
         });
 
-        // Draggable functionality for My Resume Window
-        myResumeWindowTitleBar.addEventListener('mousedown', dragStart);
 
-        function dragStart(e) {
+        // Resume Window functionality
+        myResumeIcon.addEventListener('click', () => openWindow(myResumeWindow));
+        startMenuMyResume.addEventListener('click', () => openWindow(myResumeWindow));
+        myResumeWindowCloseButton.addEventListener('click', () => closeWindow(myResumeWindow));
+        myResumeWindowTitleBar.addEventListener('mousedown', (e) => dragStart(e, myResumeWindow));
+
+        // Profile Window functionality
+        myProfileIcon.addEventListener('click', () => openWindow(myProfileWindow));
+        startMenuMyProfile.addEventListener('click', () => openWindow(myProfileWindow));
+        myProfileWindowCloseButton.addEventListener('click', () => closeWindow(myProfileWindow));
+        myProfileWindowTitleBar.addEventListener('mousedown', (e) => dragStart(e, myProfileWindow));
+
+
+        function dragStart(e, windowElement) {
             e.preventDefault(); // Prevent default browser drag behavior (e.g., image dragging)
             if (e.button === 0) { // Only allow left-click drag
                 isDragging = true;
+                activeWindow = windowElement; // Set the current active window
 
                 // Calculate the offset from the element's top-left to the mouse click point
-                const rect = myResumeWindow.getBoundingClientRect();
+                const rect = activeWindow.getBoundingClientRect();
                 dragOffsetX = e.clientX - rect.left;
                 dragOffsetY = e.clientY - rect.top;
 
@@ -848,16 +946,12 @@
                 document.addEventListener('mousemove', drag);
                 document.addEventListener('mouseup', dragEnd);
 
-                // Bring the dragged window to the front by increasing its z-index
-                myResumeWindow.style.zIndex = 30; // Higher than other elements, but taskbar/menu are 40/50
-
-                // Optional: Add a class to indicate dragging if you want to change cursor etc.
-                // myResumeWindow.classList.add('is-dragging');
+                bringWindowToFront(activeWindow);
             }
         }
 
         function drag(e) {
-            if (isDragging) {
+            if (isDragging && activeWindow) {
                 e.preventDefault();
 
                 // Calculate the new position based on mouse position minus the initial offset
@@ -867,8 +961,8 @@
                 // Constrain window to viewport boundaries
                 const bodyWidth = document.body.offsetWidth;
                 const bodyHeight = document.body.offsetHeight;
-                const windowWidth = myResumeWindow.offsetWidth;
-                const windowHeight = myResumeWindow.offsetHeight;
+                const windowWidth = activeWindow.offsetWidth;
+                const windowHeight = activeWindow.offsetHeight;
 
                 // Right boundary
                 if (newX + windowWidth > bodyWidth) {
@@ -887,18 +981,17 @@
                     newY = 0;
                 }
 
-                myResumeWindow.style.left = `${newX}px`;
-                myResumeWindow.style.top = `${newY}px`;
+                activeWindow.style.left = `${newX}px`;
+                activeWindow.style.top = `${newY}px`;
             }
         }
 
         function dragEnd(e) {
             isDragging = false;
+            activeWindow = null; // Clear the active window
             document.removeEventListener('mousemove', drag);
             document.removeEventListener('mouseup', dragEnd);
-            myResumeWindow.style.zIndex = 20; // Revert z-index
-            // Optional: Remove the dragging class
-            // myResumeWindow.classList.remove('is-dragging');
+            // Z-index handling is now done by bringWindowToFront on mousedown
         }
 
 
