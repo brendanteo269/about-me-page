@@ -124,6 +124,19 @@
             /* Ensure icons are above the background but below taskbar/menu */
         }
 
+        /* Positioning icons with a fixed top offset and consistent vertical spacing */
+        .desktop-icons-container {
+            position: absolute;
+            top: 10px;
+            /* Small fixed offset from the top */
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            /* Consistent vertical space between icons */
+            z-index: 10;
+        }
+
         /* Adjusting icon positioning for better responsiveness */
         #myResumeIcon {
             top: 10px;
@@ -464,6 +477,8 @@
             /* Scrollbars if content exceeds */
             min-width: 150px;
             min-height: 100px;
+            position: absolute;
+            /* Ensure absolute positioning */
             top: 10px;
             /* Position from top */
             right: 10px;
@@ -472,26 +487,29 @@
     </style>
 </head>
 
-<body class="flex flex-col justify-end items-start relative">
-    <div id="myResumeIcon" class="absolute top-4 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
-        <img src="assets/resume_logo.png" alt="My Resume" class="w-8 h-8 object-contain mb-1"
-            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=P';">
-        <span class="text-white text-center whitespace-nowrap icon-text">My Resume</span>
+<body class="overflow-x-hidden bg-[#008080] flex flex-col min-h-screen relative">
+    <!-- Container for desktop icons -->
+    <div class="desktop-icons-container">
+        <div id="myResumeIcon" class="flex flex-col items-center cursor-pointer win95-desktop-icon">
+            <img src="assets/resume_logo.png" alt="My Resume" class="w-8 h-8 object-contain mb-1"
+                onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=P';">
+            <span class="text-white text-center whitespace-nowrap icon-text">My Resume</span>
+        </div>
+
+        <div id="myProfileIcon" class="flex flex-col items-center cursor-pointer win95-desktop-icon">
+            <img src="assets/profile_logo.png" alt="My Profile" class="w-8 h-8 object-contain mb-1"
+                onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=R';">
+            <span class="text-white text-center whitespace-nowrap icon-text">My Profile</span>
+        </div>
+
+        <div class="flex flex-col items-center cursor-pointer win95-desktop-icon">
+            <img src="assets/projects_logo.png" alt="My Projects" class="w-8 h-8 object-contain mb-1"
+                onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=PR';">
+            <span class="text-white text-center whitespace-nowrap icon-text">My Projects</span>
+        </div>
     </div>
 
-    <div id="myProfileIcon" class="absolute top-20 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
-        <img src="assets/profile_logo.png" alt="My Profile" class="w-8 h-8 object-contain mb-1"
-            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=R';">
-        <span class="text-white text-center whitespace-nowrap icon-text">My Profile</span>
-    </div>
-
-    <div class="absolute top-36 left-4 flex flex-col items-center cursor-pointer win95-desktop-icon">
-        <img src="assets/projects_logo.png" alt="My Projects" class="w-8 h-8 object-contain mb-1"
-            onerror="this.onerror=null;this.src='https://placehold.co/32x32/C0C0C0/000000?text=PR';">
-        <span class="text-white text-center whitespace-nowrap icon-text">My Projects</span>
-    </div>
-
-    <div id="stickyNote" class="win95-sticky-note win95-border-raised absolute top-4 right-4">
+    <div id="stickyNote" class="win95-sticky-note win95-border-raised">
         <div class="win95-title-bar-nograb">
             <span>Note</span>
             <div class="win95-title-bar-buttons">
