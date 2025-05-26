@@ -442,6 +442,10 @@
             /* Fill remaining space below title bar */
             box-sizing: border-box;
             /* Include padding and border in height */
+            overflow-y: auto;
+            /* Make content area vertically scrollable */
+            -webkit-overflow-scrolling: touch;
+            /* Improve scrolling on iOS */
         }
 
         .win95-window-content-sticky-note {
